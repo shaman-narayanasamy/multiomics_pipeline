@@ -1,0 +1,95 @@
+__default__:
+    time: "0-01:00:00"
+    partition: "batch"
+    nodes: 1
+    ntasks: 1
+    ncpus: 1
+    job-name: "{rule}"
+    stdout: "slurm/%j.out"
+    mail-user: "shaman.narayanasamy@kaust.edu.sa"
+    qos: "normal"
+    mem_gb: "16GB"
+
+trimmomatic_trimming:
+    nodes: 1
+    ncpus: 12
+    mem_gb: "100GB"
+    time: "72:00:00"
+
+index_all_transcripts:
+    nodes: 1
+    ncpus: 14
+    mem_gb: "100GB"
+    time: "48:00:00"
+
+sortmerna_index_database:
+    nodes: 1
+    ncpus: 14
+    mem_gb: "200GB"
+    time: "48:00:00"
+
+sortmerna_rrna_paired:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "500GB"
+    time: "120:00:00"
+
+sortmerna_rrna_single:
+    nodes: 1
+    ncpus: 12
+    mem_gb: "150GB"
+    time: "48:00:00"
+
+sortmerna_human_paired:
+    nodes: 1
+    ncpus: 32
+    mem_gb: "500GB"
+    time: "120:00:00"
+
+sortmerna_human_single:
+    nodes: 1
+    ncpus: 12
+    mem_gb: "150GB"
+    time: "48:00:00"
+
+megahit:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "250GB"
+    time: "120:00:00"
+
+bwa_index_assembly:
+    nodes: 1
+    ncpus: 6
+    mem_gb: "100GB"
+    time: "48:00:00"
+
+bwa_mapping_on_assembly:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "200GB"
+    time: "72:00:00"
+
+index_assembly_bam:
+    nodes: 1
+    ncpus: 6
+    mem_gb: "100GB"
+    time: "48:00:00"
+
+flagstat_assembly_bam:
+    nodes: 1
+    ncpus: 12
+    mem_gb: "100GB"
+    time: "48:00:00"
+
+virsorter2:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "200GB"
+    time: "120:00:00"
+
+genomad:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "200GB"
+    time: "120:00:00"

@@ -1,0 +1,9 @@
+name: vamb_env
+channels:
+  - conda-forge
+dependencies:
+  - pytorch
+  - torchvision
+  - cudatoolkit=10.2
+  - vamb
+prefix: /ibex/user/naras0c/conda-environments/vamb_env

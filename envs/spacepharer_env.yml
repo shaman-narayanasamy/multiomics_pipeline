@@ -1,0 +1,7 @@
+name: spacepharer_env
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - spacepharer
+prefix: /ibex/user/naras0c/conda-environments/spacepharer_env

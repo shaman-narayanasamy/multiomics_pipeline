@@ -1,0 +1,7 @@
+name: sortmerna_env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - sortmerna=4.3.6=h9ee0642_0
+prefix: /ibex/user/naras0c/conda-environments/sortmerna_env

@@ -1,0 +1,40 @@
+---
+tmp_dir: "/ibex/tmp/naras0c"
+output_dir: "/ibex/user/naras0c/ww_public_datasets/output/PRJEB13233"
+data_table: "/ibex/user/naras0c/ww_public_datasets/metadata/PRJEB13233_mg_mt_data.tsv"
+input_dir:
+  download: "/ibex/user/naras0c/ww_public_datasets/input"
+  mt_assembly_input: "/ibex/user/naras0c/ww_public_datasets/output/PRJEB13233/metatranscriptomics/preprocessing"
+  mg_assembly_input: "/ibex/user/naras0c/ww_public_datasets/output/PRJEB13233/metagenomics/preprocessing"
+  mt_contig_input: "/ibex/user/naras0c/ww_public_datasets/output/PRJEB13233/metatranscriptomics/assembly"
+  coassembly_contig_input: "/ibex/user/naras0c/ww_public_datasets/output/PRJEB13233/coassembly"
+  crispr_link_input: "/ibex/user/naras0c/ww_public_datasets/output/PRJEB13233/phage_identification"
+
+trimmomatic:
+    adapters_path: "/ibex/user/naras0c/ww_public_datasets/adapters/all_illumina_adapters.fa"
+
+sortmerna:
+    db_path: "/ibex/user/naras0c/sortmerna"
+    filter_length: 20
+    human_genome_fasta_path: "/ibex/reference/KSL/Homo_sapiens_assembly38/Homo_sapiens_assembly38.fasta"
+    human_mrna_fasta_path: "/ibex/user/naras0c/genomes/human/mrna.fa"
+
+salmon:
+    min_assigned_frags: 1
+
+virsorter2:
+    db: "/ibex/sw/rl9c/virsorter2/2.2.4/rl9_conda3/db"
+    threads: 24
+
+gtdbtk:
+    db: "/ibex/reference/KSL/gtdb-tk/release214"
+
+virhostmatcher:
+    script: "/home/naras0c/repositories/github/VirHostMatcher/vhm.py"
+
+genomad:
+    db: "/ibex/reference/KSL/genomad/v1.5/genomad_db"
+    threads: 24
+
+seqkit:
+  threads: 24

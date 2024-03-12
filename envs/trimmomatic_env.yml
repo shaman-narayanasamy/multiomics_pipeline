@@ -1,0 +1,7 @@
+name: trimmomatic_env
+channels:
+  - bioconda
+dependencies:
+  - trimmomatic
+prefix: /ibex/user/naras0c/conda-environments/trimmomatic_env
+

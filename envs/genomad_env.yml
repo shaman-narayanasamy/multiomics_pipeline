@@ -1,0 +1,7 @@
+name: genomad
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - genomad=1.7.4
+prefix: /ibex/user/naras0c/conda-environments/genomad

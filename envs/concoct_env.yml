@@ -1,0 +1,7 @@
+name: concoct_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3
+  - concoct
+prefix: /ibex/user/naras0c/conda-environments/concoct_env
