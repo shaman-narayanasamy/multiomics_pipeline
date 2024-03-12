@@ -26,8 +26,8 @@ rule create_spacepharer_db:
     output:
         output_dir  = directory("{sample}/spacepharer_db")
     conda: "../../envs/spacepharer_env.yml"
-    benchmark: "spacepharer_db/benchmarks/{sample}_create_spacepharer_db.txt"
-    log: "spacepharer_db/logs/{sample}_create_spacepharer_db.log"
+    benchmark: "{sample}/spacepharer_db/benchmarks/{sample}_create_spacepharer_db.txt"
+    log: "{sample}/spacepharer_db/logs/{sample}_create_spacepharer_db.log"
     shell:
         """
         mkdir -p {output.output_dir}
@@ -48,11 +48,11 @@ rule spacepharer:
     output:
         predictions = "{sample}/spacepharer/predictions.tsv"
     conda: "../../envs/spacepharer_env.yml"
-    benchmark: "spacepharer/{sample}/benchmarks/spacepharer.txt"
-    log: "spacepharer/{sample}/logs/spacepharer.txt"
+    benchmark: "{sample}/spacepharer/benchmarks/spacepharer.txt"
+    log: "{sample}/spacepharer/logs/spacepharer.txt"
     shell:
         """ 
-        mkdir -p spacepharer/{wildcards.sample}
+        mkdir -p {wildcards.sample}/spacepharer
 
         # Need an if statement to ensure that the CRISPR files are not empty
         if [ -s {input.spacers} ]; then

@@ -46,5 +46,5 @@ rule extract_crispr_information:
      shell:
          """
          crisprtools merge -s -o {output.crass_merged} {input}
-         crisprtools extract -w {wildcards.sample} -sspacers.fa -drepeats.fa -fflanks.fa {output.crass_merged}  
+         crisprtools extract -H {wildcards.sample}/ -sspacers.fa -drepeats.fa -fflanks.fa {output.crass_merged}  
          """
