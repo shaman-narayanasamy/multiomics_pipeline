@@ -25,8 +25,12 @@ include:
 include:
     '../rules/crispr_identification/spacepharer.smk'
 
+include:
+    '../rules/crispr_identification/crisprcasfinder.smk'
+
 rule all:
      input:
         expand("{sample}/crass_reads_out/crass.crispr", sample = samples.index),
         expand("{sample}/crass_contigs_out/crass.crispr", sample = samples.index),
-        expand("{sample}/spacepharer/predictions.tsv", sample = samples.index)
+        expand("{sample}/spacepharer/predictions.tsv", sample = samples.index),
+        expand("crisprcasfinder/{sample}", sample = samples.index)
