@@ -93,3 +93,9 @@ genomad:
     ncpus: 24
     mem_gb: "200GB"
     time: "120:00:00"
+
+crisprcasfinder:
+    nodes: 1
+    ncpus: 4
+    mem_gb: "48GB"
+    time: "14-0:00:00"

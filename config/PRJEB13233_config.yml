@@ -38,3 +38,7 @@ genomad:
 
 seqkit:
   threads: 24
+
+crisprcasfinder:
+  executor_script_path: "/home/naras0c/repositories/github/ww_rna_phages/scripts/run_crisprcasfinder.sh"
+  threads: 4

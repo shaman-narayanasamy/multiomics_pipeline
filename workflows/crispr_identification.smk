@@ -33,4 +33,4 @@ rule all:
         expand("{sample}/crass_reads_out/crass.crispr", sample = samples.index),
         expand("{sample}/crass_contigs_out/crass.crispr", sample = samples.index),
         expand("{sample}/spacepharer/predictions.tsv", sample = samples.index),
-        expand("crisprcasfinder/{sample}", sample = samples.index)
+        expand("{sample}/crisprcasfinder/rawCas.fna", sample = samples.index)

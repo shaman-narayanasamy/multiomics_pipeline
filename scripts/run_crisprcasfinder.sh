@@ -14,6 +14,8 @@ INPUT_FILENAME=$(basename "$INPUT")
 OUTPUT_BASENAME=$(basename "$INPUT_BASEDIR")
 
 singularity exec -B $APPDIR \
+	--no-home \
+	-B /ibex/user/naras0c/:/mnt \
 	-B $INPUT_BASEDIR:/input \
 	-B $OUTDIR:/output \
 	$IMAGE \
