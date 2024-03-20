@@ -24,7 +24,8 @@ rule create_spacepharer_db:
     input:
         split_fasta_dir = "{sample}/phage_database"
     output:
-        output_dir  = directory("{sample}/spacepharer_db")
+        output_dir  = directory("{sample}/spacepharer_db"),
+        touch  = "{sample}/spacepharer_db.done"
     conda: "../../envs/spacepharer_env.yml"
     benchmark: "{sample}/spacepharer_db/benchmarks/{sample}_create_spacepharer_db.txt"
     log: "{sample}/spacepharer_db/logs/{sample}_create_spacepharer_db.log"
@@ -39,10 +40,13 @@ rule create_spacepharer_db:
 
         spacepharer createsetdb {wildcards.sample}/phage_database/*.gz \
         {output.output_dir}/targetSetDb_rev {tmp_dir}/{wildcards.sample}/tmpFolder_rev --reverse-fragments 1
+        
+        touch {output.touch}
         """
 
 rule spacepharer:
     input:
+        touch  = "{sample}/spacepharer_db.done",
         spacers = "{sample}/spacers.fa",
         phage_db_dir  = "{sample}/spacepharer_db"
     output:
