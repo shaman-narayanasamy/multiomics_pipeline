@@ -30,6 +30,8 @@ include:
 include:
     '../../rules/coassembly/bwa_mt.smk'
 
+include:
+    '../../rules/coassembly/coverm_contig.smk'
 
 rule all:
      input:
@@ -40,4 +42,5 @@ rule all:
         expand("{sample}/{sample}_metaG.reads.sorted.flagstat.txt", sample = samples.index),
         expand("{sample}/{sample}_metaT.reads.sorted.bam", sample = samples.index),
         expand("{sample}/{sample}_metaT.reads.sorted.bai", sample = samples.index),
-        expand("{sample}/{sample}_metaT.reads.sorted.flagstat.txt", sample = samples.index)
+        expand("{sample}/{sample}_metaT.reads.sorted.flagstat.txt", sample = samples.index),
+        expand('{sample}/coverm/{sample}_coverage.out', sample = samples.index)

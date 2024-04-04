@@ -42,3 +42,6 @@ seqkit:
 crisprcasfinder:
   executor_script_path: "/home/naras0c/repositories/github/ww_rna_phages/scripts/run_crisprcasfinder.sh"
   threads: 24
+
+coverm:
+  threads: 24
