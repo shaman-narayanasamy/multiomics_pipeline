@@ -14,8 +14,6 @@ INPUT_FILENAME=$(basename "$INPUT")
 OUTPUT_BASENAME=$(basename "$INPUT_BASEDIR")
 
 singularity exec -B $APPDIR \
-	--no-home \
-	-B /ibex/user/naras0c/:/mnt \
 	-B $INPUT_BASEDIR:/input \
 	-B $OUTDIR:/output \
 	$IMAGE \
@@ -25,3 +23,7 @@ singularity exec -B $APPDIR \
 	-drpt /usr/local/CRISPRCasFinder/supplementary_files/repeatDirection.tsv \
 	-rpts /usr/local/CRISPRCasFinder/supplementary_files/Repeat_List.csv \
 	-cas -metagenome -def G -cpuP $THREADS -out /output/$OUTPUT_BASENAME -in /input/$INPUT_FILENAME
+
+
+	#--no-home \
+	#-B /ibex/user/naras0c/:/mnt \

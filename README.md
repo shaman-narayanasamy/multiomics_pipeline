@@ -56,6 +56,12 @@ nohup launchers/sbatch_phage.sh > nohup_logs/phage_launch_$(date +'%Y%m%d_%H%M%S
 nohup launchers/sbatch_crispr.sh > nohup_logs/crispr_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
 ```
 
-
-
 NOTE: `nohup` is necessary when launching on the Ibex system
+
+
+## Summarise data
+```{sh}
+cd /ibex/user/naras0c/ww_public_datasets/output/PRJEB13233/crispr_identification
+mkdir -p summary_data
+grep -Hv "^#" */spacepharer/predictions.tsv > summary_data/sparepharer_results.tsv
+```

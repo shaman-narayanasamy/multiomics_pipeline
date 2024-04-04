@@ -96,6 +96,6 @@ genomad:
 
 crisprcasfinder:
     nodes: 1
-    ncpus: 4
-    mem_gb: "48GB"
+    ncpus: 24
+    mem_gb: "120GB"
     time: "14-0:00:00"
