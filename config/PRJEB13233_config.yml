@@ -45,3 +45,12 @@ crisprcasfinder:
 
 coverm:
   threads: 24
+
+catbat:
+    threads: 40
+    db_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/db"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/db"
+    tx_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/tax"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/tax"
