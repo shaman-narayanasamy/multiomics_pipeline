@@ -13,7 +13,7 @@ rule coverm:
         """
         TMPDIR=config["tmp_dir"]
 
-        coverm coverm -b {input} \
+        coverm contig -b {input} \
         -m mean count covered_bases -o {output.coverm_output} \
         --output-format sparse -t {params.threads}
         """

@@ -44,7 +44,7 @@ rule index_mt_bam:
     input:
         '{sample}/{sample}_metaT.reads.sorted.bam'
     output:
-        '{sample}/{sample}_metaT.reads.sorted.bai'
+        '{sample}/{sample}_metaT.reads.sorted.bam.bai'
     conda: "../../envs/bwa_env.yml"
     benchmark: os.path.join(output_dir, "{sample}/benchmarks/index_bam.txt")
     log: os.path.join(output_dir, "{sample}/logs/index_bam.txt")
