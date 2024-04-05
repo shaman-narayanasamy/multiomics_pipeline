@@ -17,7 +17,7 @@ workdir:
     output_dir
 
 include:
-    '../rules/annotation/catbat/classification.smk'
+    '../rules/annotation/classification.smk'
 
 rule all:
     input:

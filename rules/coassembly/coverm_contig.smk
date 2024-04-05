@@ -14,6 +14,6 @@ rule coverm:
         TMPDIR=config["tmp_dir"]
 
         coverm contig -b {input} \
-        -m mean count covered_bases -o {output.coverm_output} \
+        -m mean count covered_bases length -o {output.coverm_output} \
         --output-format sparse -t {params.threads}
         """

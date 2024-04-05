@@ -56,6 +56,10 @@ nohup launchers/sbatch_phage.sh > nohup_logs/phage_launch_$(date +'%Y%m%d_%H%M%S
 nohup launchers/sbatch_crispr.sh > nohup_logs/crispr_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
 ```
 
+```{sh}
+nohup launchers/sbatch_annotation.sh > nohup_logs/annotation_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
+```
+
 NOTE: `nohup` is necessary when launching on the Ibex system
 
 
