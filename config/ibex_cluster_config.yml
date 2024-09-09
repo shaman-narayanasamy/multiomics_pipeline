@@ -105,3 +105,16 @@ coverm:
     ncpus: 24
     mem_gb: "120GB"
     time: "5-0:00:00"
+
+catbat_classification:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "500GB"
+    time: "120:00:00"
+    partition: "largemem"
+
+catbat_summary:
+    nodes: 1
+    ncpus: 6
+    time: "6:00:00"
+

@@ -17,9 +17,9 @@ rule catbat_classification:
     log: "{sample}/catbat/logs/{db_name}_catbat_annotation.txt"
     shell: 
         """ 
-       
-        # Run program on new folder with corrected fasta files
-        mkdir -p catbat
+        # Make the directory 
+        mkdir -p catbat/{wildcards.db_name}
+
 	CAT contigs -c {input.assembly} -d {params.db_path} -t {params.tx_path} -n {threads} -o catbat/{wildcards.db_name}/CAT
 
         touch {output.donefile}
