@@ -19,19 +19,19 @@ workdir:
     output_dir
 
 include:
-    '../../rules/coassembly/megahit.smk'
+    '../rules/coassembly/megahit.smk'
 
 include:
-    '../../rules/coassembly/bwa_index.smk'
+    '../rules/coassembly/bwa_index.smk'
 
 include:
-    '../../rules/coassembly/bwa_mg.smk'
+    '../rules/coassembly/bwa_mg.smk'
 
 include:
-    '../../rules/coassembly/bwa_mt.smk'
+    '../rules/coassembly/bwa_mt.smk'
 
 include:
-    '../../rules/coassembly/coverm_contig.smk'
+    '../rules/coassembly/coverm_contig.smk'
 
 rule all:
      input:

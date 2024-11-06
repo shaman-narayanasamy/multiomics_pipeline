@@ -15,31 +15,31 @@ workdir:
     output_dir
 
 include:
-    '../../rules/binning/concoct.smk'
+    '../rules/binning/concoct.smk'
 
 include:
-    '../../rules/binning/metabat2.smk'
+    '../rules/binning/metabat2.smk'
 
 include:
-    '../../rules/binning/maxbin2.smk'
+    '../rules/binning/maxbin2.smk'
 
 include:
-    '../../rules/binning/vamb.smk'
+    '../rules/binning/vamb.smk'
 
 include:
-    '../../rules/binning/semibin.smk'
+    '../rules/binning/semibin.smk'
 
 include:
-    '../../rules/binning/marker_genes.smk'
+    '../rules/binning/marker_genes.smk'
 
 include:
-    '../../rules/binning/contig_to_bin.smk'
+    '../rules/binning/contig_to_bin.smk'
 
 include:
-    '../../rules/binning/bin_refinement.smk'
+    '../rules/binning/bin_refinement.smk'
 
 include:
-    '../../rules/binning/separate_bins.smk'
+    '../rules/binning/separate_bins.smk'
 
 rule all:
      input:
