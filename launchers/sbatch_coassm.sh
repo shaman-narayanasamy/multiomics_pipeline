@@ -29,6 +29,8 @@ case "${SMK_ARG}" in
 esac
 
 CMD="snakemake ${SMK_ARG} \
+	--rerun-incomplete \
+	--force \
 	-krp \
 	--keep-remote \
 	--configfile $SMK_CONFIG \

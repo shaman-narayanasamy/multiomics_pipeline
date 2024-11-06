@@ -1,10 +1,7 @@
-from snakemake.remote.FTP import RemoteProvider as FTPRemoteProvider
-FTP = FTPRemoteProvider(keep_local=True, immediate_close=True)
-
 rule trimmomatic_trimming:
     input:
-        read_1 = lambda wildcards: os.path.join(input_dir, samples.loc[wildcards.sample, "MT_R1"]),
-        read_2 = lambda wildcards: os.path.join(input_dir, samples.loc[wildcards.sample, "MT_R2"])
+        read_1=lambda wildcards: samples.at[wildcards.sample, "MT_R1"],
+        read_2=lambda wildcards: samples.at[wildcards.sample, "MT_R2"]
     output:
         paired_read_1 = "{sample}/{sample}_R1.processed.fastq.gz",
         paired_read_2 = "{sample}/{sample}_R2.processed.fastq.gz",

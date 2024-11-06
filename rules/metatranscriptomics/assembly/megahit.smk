@@ -18,5 +18,6 @@ rule megahit:
 
        megahit -1 {input.filtered_paired_read_1} -2 {input.filtered_paired_read_2} \
        -r {input.filtered_unpaired_read} \
-       -o {wildcards.sample}/megahit_assembly
+       -o {wildcards.sample}/megahit_assembly \
+       -t {threads}
        """ 

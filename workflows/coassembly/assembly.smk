@@ -43,4 +43,4 @@ rule all:
         expand("{sample}/{sample}_metaT.reads.sorted.bam", sample = samples.index),
         expand("{sample}/{sample}_metaT.reads.sorted.bam.bai", sample = samples.index),
         expand("{sample}/{sample}_metaT.reads.sorted.flagstat.txt", sample = samples.index),
-        expand('{sample}/coverm/{sample}_coverage.out', sample = samples.index)
+        expand('{sample}/coverm/{sample}_coverage.out', sample = samples.index),

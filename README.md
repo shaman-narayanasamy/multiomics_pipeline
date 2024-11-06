@@ -45,6 +45,10 @@ nohup launchers/sbatch_mg_preprocessing.sh > nohup_logs/mg_preprocessing_launch_
 ```
 
 ```{sh}
+nohup launchers/sbatch_mg_assembly.sh > nohup_logs/mg_assembly_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
+```
+
+```{sh}
 nohup launchers/sbatch_coassm.sh > nohup_logs/coassembly_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
 ```
 

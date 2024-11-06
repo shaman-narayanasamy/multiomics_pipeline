@@ -1,9 +1,21 @@
 name: vamb_env
 channels:
+  - defaults
   - conda-forge
+  - bioconda
 dependencies:
-  - pytorch
-  - torchvision
-  - cudatoolkit=10.2
-  - vamb
+  - python=3.8
+  - pip
+  - pip:
+      - vamb
 prefix: /ibex/user/naras0c/conda-environments/vamb_env
+
+#channels:
+#  - conda-forge
+#  - pytorch
+#  - bioconda
+#dependencies:
+#  - pytorch
+#  - torchvision
+#  - cudatoolkit=10.2
+#  - vamb

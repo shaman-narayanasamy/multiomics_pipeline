@@ -118,3 +118,67 @@ catbat_summary:
     ncpus: 6
     time: "6:00:00"
 
+penguin_assembly:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "250GB"
+    time: "72:00:00"
+
+salmon_quant_all:
+    nodes: 1
+    ncpus: 14
+    time: "48:00:00"
+
+concoct:
+    nodes: 1
+    ncpus: 40
+    mem_gb: "200GB"
+    time: "72:00:00"
+
+metabat2:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "100GB"
+    time: "72:00:00"
+
+maxbin2:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "100GB"
+    time: "72:00:00"
+
+vamb:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "100GB"
+    time: "72:00:00"
+
+semibin:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "100GB"
+    time: "72:00:00"
+
+catbat_classification:
+    nodes: 1
+    ncpus: 40
+    mem_gb: "200GB"
+    time: "120:00:00"
+
+drep_dereplication:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "200GB"
+    time: "5-00:00:00"
+
+bakta_annotation:
+    nodes: 1
+    ncpus: 12
+    mem_gb: "120GB"
+    time: "48:00:00"
+
+coverm_genomes:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "240GB"
+    time: "120:00:00"

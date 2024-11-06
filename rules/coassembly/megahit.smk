@@ -29,10 +29,12 @@ rule megahit:
     shell:
        """
        rm -rf {wildcards.sample}/megahit_assembly
+
        megahit -1 {input.filtered_mg_paired_read_1},{input.filtered_mt_paired_read_1} \
                -2 {input.filtered_mg_paired_read_2},{input.filtered_mt_paired_read_2} \
                -r {input.filtered_mg_unpaired_read},{input.filtered_mt_unpaired_read},{input.mt_contigs} \
                -o {wildcards.sample}/megahit_assembly \
+               -t {threads} \
                --continue
        """ 
 
