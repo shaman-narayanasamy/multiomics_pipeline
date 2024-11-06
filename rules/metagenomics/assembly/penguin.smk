@@ -13,12 +13,13 @@ rule penguin_assembly:
     log: os.path.join(output_dir, "{sample}/logs/penguin.txt")
     shell:
        """
-       mkdir -p {wildcards.sample}/penguin_assembly
-       mkdir -p {tmp_dir}/{wildcards.sample}/penguin_assembly/MG
+       mkdir -p {wildcards.sample}/penguin_assembly/tmp
 
        penguin guided_nuclassemble \
                {input.filtered_mg_paired_read_1} \
                {input.filtered_mg_paired_read_2} \
-               {output.assembly_fasta} {tmp_dir}/{wildcards.sample}/penguin_assembly/MG \
+               {output.assembly_fasta} {wildcards.sample}/penguin_assembly/tmp \
                --threads {threads}
+
+       rm -rf {wildcards.sample}/penguin_assembly/tmp
        """
