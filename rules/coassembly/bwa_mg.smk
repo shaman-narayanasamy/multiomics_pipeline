@@ -17,6 +17,7 @@ rule bwa_mg_mapping_on_assembly:
     resources:
         memory = 250
     threads: 24 
+    group: "bwa_mapping_on_assembly"
     conda: "../../envs/bwa_env.yml"
     benchmark: os.path.join(output_dir, "{sample}/benchmarks/bwa_mapping.txt")
     log: os.path.join(output_dir, "{sample}/logs/bwa_mapping.txt")
@@ -46,6 +47,7 @@ rule index_mg_bam:
     output:
         '{sample}/{sample}_metaG.reads.sorted.bam.bai'
     conda: "../../envs/bwa_env.yml"
+    group: "bwa_index_assembly"
     benchmark: os.path.join(output_dir, "{sample}/benchmarks/index_bam.txt")
     log: os.path.join(output_dir, "{sample}/logs/index_bam.txt")
     shell:
