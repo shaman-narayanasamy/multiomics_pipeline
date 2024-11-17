@@ -67,7 +67,7 @@ bwa_index_assembly:
 bwa_mapping_on_assembly:
     nodes: 1
     ncpus: 24
-    mem_gb: "200GB"
+    mem_gb: "250GB"
     time: "72:00:00"
 
 index_assembly_bam:
@@ -128,6 +128,13 @@ salmon_quant_all:
     nodes: 1
     ncpus: 14
     time: "48:00:00"
+
+deepmicroclass:
+    nodes: 1
+    ncpus: 2
+    gres: "v100:1"
+    mem_gb: "128GB"
+    time: "72:00:00"
 
 concoct:
     nodes: 1
