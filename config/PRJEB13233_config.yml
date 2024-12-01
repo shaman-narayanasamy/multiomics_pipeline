@@ -76,6 +76,9 @@ semibin:
     threads: 24
     environment_type: "wastewater"
 
+semibin_multi_sample:
+    threads: 36
+
 magscot:
     folder: "/home/naras0c/repositories/github/MAGScoT"        
 

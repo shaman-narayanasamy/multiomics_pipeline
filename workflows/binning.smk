@@ -49,6 +49,8 @@ include:
 
 rule all:
      input:
+        'semibin_multi_sample/concatenated.fa',
+        'semibin_multi_sample/binning.done',
         expand("{sample}/concoct/bins", sample = samples.index),
         expand("{sample}/metabat2.done", sample = samples.index),
         expand("{sample}/maxbin2.done", sample = samples.index),
@@ -62,6 +64,5 @@ rule all:
 	expand("{sample}/DeepMicroClass/prokaryotic_viruses.fa", sample = samples.index),
 	expand("{sample}/DeepMicroClass/eukaryotic_viruses.fa", sample = samples.index),
 	expand("{sample}/DeepMicroClass/plasmids.fa", sample = samples.index),
-        'semibin_multi_sample/concatenated.fa',
         expand('semibin_multi_sample/{sample}_metaG.reads.sorted.bam', sample = samples.index),
-        done = 'semibin_multi_sample/binning.done',
+        expand('semibin_multi_sample/{sample}_contig_to_bin.tsv', sample = samples.index)

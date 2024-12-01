@@ -121,20 +121,27 @@ catbat_summary:
 penguin_assembly:
     nodes: 1
     ncpus: 24
-    mem_gb: "250GB"
-    time: "72:00:00"
+    mem_gb: "1000GB"
+    time: "120:00:00"
 
 salmon_quant_all:
     nodes: 1
     ncpus: 14
     time: "48:00:00"
 
-deepmicroclass:
+deepmicroclass_predict:
     nodes: 1
     ncpus: 2
     gres: "v100:1"
     mem_gb: "128GB"
     time: "72:00:00"
+
+deepmicroclass_extract:
+    nodes: 1
+    ncpus: 2
+    gres: "v100:1"
+    mem_gb: "64GB"
+    time: "6:00:00"
 
 concoct:
     nodes: 1
@@ -189,3 +196,11 @@ coverm_genomes:
     ncpus: 24
     mem_gb: "240GB"
     time: "120:00:00"
+
+semibin_multi_sample:
+    nodes: 1
+    ncpus: 36
+    mem_gb: "250GB"
+    time: "120:00:00"
+
+
