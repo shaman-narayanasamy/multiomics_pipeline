@@ -1,7 +1,0 @@
-name: virsorter2_env
-channels:
-  - conda-forge
-  - bioconda
-dependencies:
-  - virsorter=2
-prefix: /ibex/user/naras0c/conda-environments/virsorter2_env

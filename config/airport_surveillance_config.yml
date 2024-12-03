@@ -1,11 +1,11 @@
 ---
 tmp_dir: "/ibex/tmp/naras0c"
 output_dir: "/ibex/project/e3018/airport_surveillance/output/"
-data_tables: 
-  all: "/ibex/project/e3018/airport_surveillance/all_sample_table.tsv"
-  mgmt: "/ibex/project/e3018/airport_surveillance/mgmt_sample_table.tsv"
-  mg_only: "/ibex/project/e3018/airport_surveillance/mg_only_sample_table.tsv"
-  mt_only: "/ibex/project/e3018/airport_surveillance/mt_only_sample_table.tsv"
+data_table: "/ibex/project/e3018/airport_surveillance/mgmt_sample_table.tsv"
+  #  all: "/ibex/project/e3018/airport_surveillance/all_sample_table.tsv"
+  #  mgmt: "/ibex/project/e3018/airport_surveillance/mgmt_sample_table.tsv"
+  #  mg_only: "/ibex/project/e3018/airport_surveillance/mg_only_sample_table.tsv"
+  #  mt_only: "/ibex/project/e3018/airport_surveillance/mt_only_sample_table.tsv"
 input_dir:
   mt_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/preprocessing"
   mg_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metagenomics/preprocessing"
@@ -57,3 +57,31 @@ catbat:
     tx_path:
       gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/tax"
       nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/tax"
+
+binning:
+  min_contig_length: 1500 ## Required by metabat2
+
+concoct:
+    threads: 40
+    read_length: 250
+    contig_split_length: 1000
+
+metabat2:
+    threads: 24
+
+maxbin2:
+    threads: 24
+
+vamb:
+    threads: 24
+
+semibin:
+    threads: 24
+    environment_type: "wastewater"
+
+semibin_multi_sample:
+    threads: 36
+
+magscot:
+    folder: "/home/naras0c/repositories/github/MAGScoT"        
+
