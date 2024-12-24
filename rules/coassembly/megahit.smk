@@ -38,16 +38,6 @@ rule megahit:
                --continue
        """ 
 
-#rule get_coassembly:
-#    input:
-#        coassembly_fasta="{sample}/megahit_assembly/final.contigs.fa",
-#    output:
-#        coassembly_fasta="{sample}/{sample}.coassembly_contigs.fa",
-#    shell:
-#        """
-#        ln -s $(realpath {input}) $(realpath {output})
-#        """ 
-
 rule rename_contigs:
     input:
         coassembly_fasta="{sample}/megahit_assembly/final.contigs.fa",

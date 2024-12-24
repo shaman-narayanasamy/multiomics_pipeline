@@ -1,7 +1,7 @@
 rule magscot_separate_bins:
     input:
         binning_results="{sample}/magscot/MAGScoT.refined.contig_to_bin.out",
-        contigs_fasta = os.path.join(input_dir, "{sample}/{sample}.coassembly_contigs.fa"), 
+        contigs_fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"]
     output:
         separate_bins=directory("{sample}/magscot_bins")
     conda: "../../envs/pullseq_env.yml"

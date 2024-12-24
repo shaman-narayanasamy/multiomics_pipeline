@@ -1,6 +1,6 @@
 rule deepmicroclass_predict:
     input:
-        fasta = os.path.join(input_dir, "{sample}/{sample}.coassembly_contigs.fa"), 
+        fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"]
     output:
         predictions = "{sample}/DeepMicroClass/{sample}.coassembly_contigs.fa_pred_one-hot_hybrid.tsv"
     container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
@@ -14,7 +14,7 @@ rule deepmicroclass_predict:
 
 rule deepmicroclass_extract:
     input:
-        fasta = os.path.join(input_dir, "{sample}/{sample}.coassembly_contigs.fa"), 
+        fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"],
         predictions = "{sample}/DeepMicroClass/{sample}.coassembly_contigs.fa_pred_one-hot_hybrid.tsv"
     output:
         prokaryotes = "{sample}/DeepMicroClass/prokaryotes.fa",
@@ -65,42 +65,6 @@ rule get_all_prokaryotic_seqs:
         cat {input} > {output}
         """
 
-#rule get_all_prokaryotic_seqs_alignments:
-#    input: 
-#        fasta = "{sample}/all_prokaryotic_seqs.fa",
-#        bam = os.path.join(input_dir, '{sample}/{sample}_metaG.reads.sorted.bam'),
-#        bai = os.path.join(input_dir, '{sample}/{sample}_metaG.reads.sorted.bam.bai')
-#    output:
-#        bam = "{sample}/{sample}_metaG.reads.sorted.bam"
-#    params: 
-#        prefix = "{sample}/all_prokaryotic_seqs.metaG.reads",
-#        memory = 250,
-#        contig_list = "{sample}/contig_list.bed"
-#    threads: 24 
-#    group: "bwa_mapping_on_assembly"
-#    conda: "../../envs/bwa_env.yml"
-#    benchmark: os.path.join("{sample}/benchmarks/get_all_prokaryotic_seqs_alignments.txt")
-#    log: os.path.join("{sample}/logs/get_all_prokaryotic_seqs_alignments.log")
-#    shell:
-#        """
-#        PREFIX={params.prefix}
-#
-#        MEM_PER_CORE=$(({params.memory}/{threads}))
-#        
-#        grep "^>" {input.fasta} | sed -e 's/>//g' | \
-#        cut -f 1,4 -d ' ' | sed -e 's/len=/0 /g' | \
-#        sed -e 's/ /\t/g' |  awk -v increment=1 '{{ $3 += increment; print }}' > {params.contig_list}
-#        
-#        # Filter, sort, and add read group information in one step
-#        samtools view {input.bam} -b -M -L {params.contig_list} | \
-#        samtools sort --threads {threads} -m ${{MEM_PER_CORE}}G -o $PREFIX.sorted.bam \
-#        2>> {log}
-#
-#        rm {params.contig_list}
-#        """
-
-### Needs to redo the mapping because it is required by the binning
-
 rule bwa_index_assembly:
     input:
         fasta = "{sample}/all_prokaryotic_seqs.fa",
@@ -123,9 +87,9 @@ rule bwa_index_assembly:
 
 rule bwa_mg_mapping_on_assembly:
     input:
-        r_1 = os.path.join(config["input_dir"]["mg_assembly_input"], "{sample}/{sample}_R1.processed.fastq.gz"),
-        r_2 = os.path.join(config["input_dir"]["mg_assembly_input"], "{sample}/{sample}_R2.processed.fastq.gz"),
-        r_se = os.path.join(config["input_dir"]["mg_assembly_input"], "{sample}/{sample}_SE.processed.fastq.gz"),
+        r_1=lambda wildcards: samples.at[(wildcards.sample), "R1"],
+        r_2=lambda wildcards: samples.at[(wildcards.sample), "R2"],
+        r_se=lambda wildcards: samples.at[(wildcards.sample), "SE"],
 	assembly="{sample}/all_prokaryotic_seqs.fa",
         assembly_amb="{sample}/all_prokaryotic_seqs.fa.amb",
         assembly_bwt="{sample}/all_prokaryotic_seqs.fa.bwt",

@@ -61,7 +61,7 @@ megahit:
 bwa_index_assembly:
     nodes: 1
     ncpus: 6
-    mem_gb: "100GB"
+    mem_gb: "120GB"
     time: "48:00:00"
 
 bwa_mapping_on_assembly:
@@ -170,7 +170,7 @@ vamb:
 semibin:
     nodes: 1
     ncpus: 24
-    mem_gb: "100GB"
+    mem_gb: "250GB"
     time: "72:00:00"
 
 catbat_classification:
@@ -197,10 +197,14 @@ coverm_genomes:
     mem_gb: "240GB"
     time: "120:00:00"
 
+rule semibin_multi_sample_get_abundance:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "120GB"
+    time: "72:00:00"
+
 semibin_multi_sample:
     nodes: 1
     ncpus: 36
-    mem_gb: "250GB"
-    time: "120:00:00"
-
-
+    mem_gb: "500GB"
+    time: "8-0:00:00"

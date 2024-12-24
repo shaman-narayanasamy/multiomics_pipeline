@@ -9,7 +9,27 @@ output_dir = os.path.join(config['output_dir'],  "binning")
 
 ## Define input files
 # Read the sample table
-samples = pd.read_table(config["data_table"], sep="\t", comment = "#").set_index("sample_alias", drop=False)
+#samples = pd.read_table(config["data_table"], sep="\t", comment = "#").set_index("sample_alias", drop=False)
+if "single_sample" in config:
+    # Override with single fasta and sample
+    print(f"Using single sample: {config['single_sample']['sample_alias']} with fasta: {config['single_sample']['fasta']}")
+    samples = pd.DataFrame({
+        "sample_alias": [config["single_sample"]["sample_alias"]],
+        "R1": [config["single_sample"]["R1"]],
+        "R2": [config["single_sample"]["R2"]],
+        "SE": [config["single_sample"]["SE"]],
+        "fasta": [config["single_sample"]["assembly_path"]]
+    })
+    samples.set_index(["sample_alias"], drop=False, inplace=True)
+else:
+    # Use the table by default
+    samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
+    samples.rename(columns={"assembly_path": "fasta"}, inplace=True)  # Rename here
+    samples = samples.dropna(subset=["sample_alias", "R1", "R1", "SE", "fasta"])
+    samples.set_index("sample_alias", drop=False, inplace=True)
+
+print(samples)
+print(samples.index)
 
 workdir:
     output_dir
@@ -64,5 +84,9 @@ rule all:
 	expand("{sample}/DeepMicroClass/prokaryotic_viruses.fa", sample = samples.index),
 	expand("{sample}/DeepMicroClass/eukaryotic_viruses.fa", sample = samples.index),
 	expand("{sample}/DeepMicroClass/plasmids.fa", sample = samples.index),
-        expand('semibin_multi_sample/{sample}_metaG.reads.sorted.bam', sample = samples.index),
-        expand('semibin_multi_sample/{sample}_contig_to_bin.tsv', sample = samples.index)
+	expand("{sample}/{sample}_metaG.reads.sorted.bam", sample = samples.index),
+        'semibin_multi_sample/output',
+        'semibin_multi_sample/binning.done',
+        expand("semibin_multi_sample/{sample}_contig_to_bin.tsv", sample = samples.index)
+        #expand('semibin_multi_sample/{sample}_metaG.reads.sorted.bam', sample = samples.index),
+        #expand('semibin_multi_sample/{sample}_contig_to_bin.tsv', sample = samples.index)

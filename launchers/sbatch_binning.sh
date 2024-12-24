@@ -35,7 +35,7 @@ CMD="snakemake ${SMK_ARG} \
 	--configfile $SMK_CONFIG \
 	--conda-prefix /ibex/user/naras0c/conda-environments/ \
 	--use-conda \
-	--conda-frontend mamba \
+	--conda-frontend conda \
 	--jobs $SMK_JOBS \
 	--cluster-config ${SMK_SLURM_CONFIG} \
 	--cluster \"${SMK_CLUSTER_ARGS}\"  \
