@@ -28,9 +28,6 @@ else:
     samples = samples.dropna(subset=["sample_alias", "R1", "R1", "SE", "fasta"])
     samples.set_index("sample_alias", drop=False, inplace=True)
 
-print(samples)
-print(samples.index)
-
 workdir:
     output_dir
 

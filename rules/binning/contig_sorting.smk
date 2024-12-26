@@ -2,7 +2,7 @@ rule deepmicroclass_predict:
     input:
         fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"]
     output:
-        predictions = "{sample}/DeepMicroClass/{sample}.coassembly_contigs.fa_pred_one-hot_hybrid.tsv"
+        predictions = "{sample}/DeepMicroClass/{input.fasta}_pred_one-hot_hybrid.tsv"
     container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
     shadow: "shallow"
     benchmark: os.path.join("{sample}/benchmarks/deepmicroclass_predict.txt")
@@ -15,7 +15,10 @@ rule deepmicroclass_predict:
 rule deepmicroclass_extract:
     input:
         fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"],
-        predictions = "{sample}/DeepMicroClass/{sample}.coassembly_contigs.fa_pred_one-hot_hybrid.tsv"
+        #predictions = "{sample}/DeepMicroClass/{sample}.coassembly_contigs.fa_pred_one-hot_hybrid.tsv"
+        #predictions = "{sample}/DeepMicroClass/{input.fasta}_pred_one-hot_hybrid.tsv"
+        #predictions=lambda wildcards, input: f"{wildcards.sample}/DeepMicroClass/{os.path.basename(input.fasta)}_pred_one-hot_hybrid.tsv"
+        predictions=lambda wildcards: f"{wildcards.sample}/DeepMicroClass/{os.path.basename(samples.at[wildcards.sample, 'fasta'])}_pred_one-hot_hybrid.tsv"
     output:
         prokaryotes = "{sample}/DeepMicroClass/prokaryotes.fa",
         eukaryotes = "{sample}/DeepMicroClass/eukaryotes.fa",
