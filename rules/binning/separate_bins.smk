@@ -1,9 +1,9 @@
 rule magscot_separate_bins:
     input:
-        binning_results="{sample}/magscot/MAGScoT.refined.contig_to_bin.out",
-        contigs_fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"]
+        binning_results = "{sample}/magscot/MAGScoT.refined.contig_to_bin.out",
+        contigs_fasta = "{sample}/DeepMicroClass/prokaryotes.fa"
     output:
-        separate_bins=directory("{sample}/magscot_bins")
+        separate_bins = directory("{sample}/magscot_bins")
     conda: "../../envs/pullseq_env.yml"
     benchmark: "{sample}/benchmarks/binning_separate_bins.txt"
     log: "{sample}/logs/binning_separate_bins.txt"

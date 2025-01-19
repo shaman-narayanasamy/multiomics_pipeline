@@ -1,55 +1,68 @@
 rule catbat_classification:
     input:
-        assembly = os.path.join(coassembly_dir, "{sample}/{sample}.coassembly_contigs.fa")
+        bin_folder = config["genomes_dir"]
     output:
-        donefile = "{sample}/catbat/{db_name}/catbat.done",
-        contig_classification = "{sample}/catbat/{db_name}/CAT.contig2classification.txt"
+        donefile = "catbat/{db_name}/catbat.done",
+        bin_classification = "catbat/{db_name}/BAT.bin2classification.txt"
     params: 
         db_path=lambda wildcards: config['catbat']['db_path'][wildcards.db_name],
         tx_path=lambda wildcards: config['catbat']['tx_path'][wildcards.db_name]
-    threads: 24
+    threads: 40
     conda: 
         "../../envs/catbat_env.yml"
     container:
-        "https://depot.galaxyproject.org/singularity/cat:5.2.3--hdfd78af_1"
+        "/ibex/user/naras0c/singularity/catbat/catbat.simg"
     shadow: "shallow"
-    benchmark: "{sample}/catbat/benchmarks/{db_name}_catbat_annotation.txt"
-    log: "{sample}/catbat/logs/{db_name}_catbat_annotation.txt"
+    benchmark: "catbat/benchmarks/{db_name}_catbat_annotation.txt"
+    log: "catbat/logs/{db_name}_catbat_annotation.txt"
     shell: 
         """ 
-        # Make the directory 
-        mkdir -p catbat/{wildcards.db_name}
-
-	CAT contigs -c {input.assembly} -d {params.db_path} -t {params.tx_path} -n {threads} -o catbat/{wildcards.db_name}/CAT
+        # Create temporary directory for "corrected" fasta files (required by CAT/BAT)
+        mkdir -p {input.bin_folder}/fixed_fasta
+        
+        # Generate new fasta files without spaces in the header
+        for fasta in {input.bin_folder}/*.fasta; do
+            base=$(basename "$fasta" .fasta)
+            cat "$fasta" | sed -e 's/> />/g' > "{input.bin_folder}/fixed_fasta/${{base}}.fasta"
+        done
+        
+        # Run program on new folder with corrected fasta files
+        mkdir -p catbat
+	CAT bins --force -b {input.bin_folder}/fixed_fasta -d {params.db_path} -t {params.tx_path} -n {threads} -s fasta -o catbat/{wildcards.db_name}/BAT
 
         touch {output.donefile}
 	"""
 
-        # Generate new fasta file without spaces in the header
-#        for fasta in {input.bin_folder}/*.fasta; do
-#            base=$(basename "$fasta" .fasta)
-#            cat "$fasta" | sed -e 's/> />/g' > "{input.bin_folder}/fixed_fasta/${{base}}.fasta"
-#        done
- 
 rule catbat_summary:
     input:
-        donefile = "{sample}/catbat/{db_name}/catbat.done",
-        contig_classification = "{sample}/catbat/{db_name}/CAT.contig2classification.txt"
+        donefile = "catbat/{db_name}/catbat.done",
+        bin_classification = "catbat/{db_name}/BAT.bin2classification.txt"
     output:
-        contig_classification_names_added = "{sample}/catbat/{db_name}/CAT.contig2classification.names_added.txt",
-        donefile = "{sample}/catbat/{db_name}/catbat_summary.done"
+        bin_classification_names_added = "catbat/{db_name}/BAT.bin2classification.names_added.txt",
+        donefile = "catbat/{db_name}/catbat_summary.done"
     params: 
         db_path=lambda wildcards: config['catbat']['db_path'][wildcards.db_name],
-        tx_path=lambda wildcards: config['catbat']['tx_path'][wildcards.db_name]
+        tx_path=lambda wildcards: config['catbat']['tx_path'][wildcards.db_name],
+        catpack_script=config['catbat']['catpack_script']
     conda: 
         "../../envs/catbat_env.yml"
     container:
-        "https://depot.galaxyproject.org/singularity/cat:5.2.3--hdfd78af_1"
-    benchmark: "{sample}/catbat/benchmarks/{db_name}_catbat_summary.txt"
-    log: "{sample}/catbat/logs/{db_name}_catbat_summary.txt"
+        "/ibex/user/naras0c/singularity/catbat/catbat.simg"
+    benchmark: "catbat/benchmarks/{db_name}_catbat_summary.txt"
+    log: "catbat/logs/{db_name}_catbat_summary.txt"
     shell: 
         """        
-        CAT add_names -i {input.contig_classification} -o {output.contig_classification_names_added} -t {params.tx_path} --only_official
+        db_name="{wildcards.db_name}"
+
+        if [[ $db_name == "gtdb" ]]; then
+
+        touch {output.bin_classification_names_added} 
+
+        else
+
+        {params.catpack_script} add_names -i {input.bin_classification} -o {output.bin_classification_names_added} -t {params.tx_path} --only_official
+
+        fi 
 
         touch {output.donefile}
         """

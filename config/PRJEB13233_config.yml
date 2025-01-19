@@ -1,14 +1,18 @@
 ---
 tmp_dir: "/ibex/tmp/naras0c"
 output_dir: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233"
-data_table: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/metadata/PRJEB13233_mg_mt_data.tsv"
+#data_table: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/metadata/PRJEB13233_mg_mt_data.tsv"
+data_table: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/binning_input.tsv"
+genomes_dir: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/binning/dereplication/dereplicated_bins/dereplicated_genomes"
 input_dir:
   download: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/input"
   mt_assembly_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/metatranscriptomics/preprocessing"
   mg_assembly_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/metagenomics/preprocessing"
   mt_contig_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/metatranscriptomics/assembly"
   coassembly_contig_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/coassembly"
+  dereplication_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/binning"
   crispr_link_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/phage_identification"
+
 
 trimmomatic:
     adapters_path: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/adapters/all_illumina_adapters.fa"

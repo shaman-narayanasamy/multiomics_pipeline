@@ -181,9 +181,9 @@ catbat_classification:
 
 drep_dereplication:
     nodes: 1
-    ncpus: 24
-    mem_gb: "200GB"
-    time: "5-00:00:00"
+    ncpus: 36
+    mem_gb: "500GB"
+    time: "8-00:00:00"
 
 bakta_annotation:
     nodes: 1
@@ -197,10 +197,16 @@ coverm_genomes:
     mem_gb: "240GB"
     time: "120:00:00"
 
-rule semibin_multi_sample_get_abundance:
+semibin_multi_sample_get_abundance:
     nodes: 1
     ncpus: 24
-    mem_gb: "120GB"
+    mem_gb: "250GB"
+    time: "120:00:00"
+
+semibin_multi_sample_split_contigs:
+    nodes: 1
+    ncpus: 12
+    mem_gb: "100GB"
     time: "72:00:00"
 
 semibin_multi_sample:

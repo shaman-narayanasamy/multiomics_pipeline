@@ -1,4 +1,4 @@
-name: drep
+name: drep_env
 channels:
   - conda-forge
   - bioconda
@@ -9,4 +9,4 @@ dependencies:
   - prodigal
   - checkm-genome
   - centrifuge
-prefix: /home/users/snarayanasamy/miniconda3/envs/drep
+prefix: /home/users/snarayanasamy/miniconda3/envs/drep_env

@@ -25,7 +25,7 @@ else:
     # Use the table by default
     samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
     samples.rename(columns={"assembly_path": "fasta"}, inplace=True)  # Rename here
-    samples = samples.dropna(subset=["sample_alias", "R1", "R1", "SE", "fasta"])
+    samples = samples.dropna(subset=["sample_alias", "R1", "R2", "SE", "fasta"])
     samples.set_index("sample_alias", drop=False, inplace=True)
 
 workdir:
@@ -64,6 +64,9 @@ include:
 include:
     '../rules/binning/semibin_multi_sample.smk'
 
+include:
+    '../rules/binning/dereplication.smk'
+
 rule all:
      input:
         'semibin_multi_sample/concatenated.fa',
@@ -84,6 +87,5 @@ rule all:
 	expand("{sample}/{sample}_metaG.reads.sorted.bam", sample = samples.index),
         'semibin_multi_sample/output',
         'semibin_multi_sample/binning.done',
-        expand("semibin_multi_sample/{sample}_contig_to_bin.tsv", sample = samples.index)
-        #expand('semibin_multi_sample/{sample}_metaG.reads.sorted.bam', sample = samples.index),
-        #expand('semibin_multi_sample/{sample}_contig_to_bin.tsv', sample = samples.index)
+        expand("semibin_multi_sample/contigs_to_bins/{sample}_contig_to_bin.tsv", sample = samples.index),
+        "dereplication"

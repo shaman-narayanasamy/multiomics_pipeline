@@ -11,7 +11,8 @@ output_dir = os.path.join(config['output_dir'],  "metagenomics", "assembly")
 
 ## Define input files
 # Read the sample table
-samples = pd.read_table(config["data_table"]["all"], sep="\t", comment="#", dtype={"sample_alias": str})
+#samples = pd.read_table(config["data_table"]["all"], sep="\t", comment="#", dtype={"sample_alias": str})
+samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
 samples.set_index("sample_alias", drop=False, inplace=True)
 
 workdir:
