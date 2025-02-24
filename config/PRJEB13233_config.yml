@@ -49,6 +49,8 @@ crisprcasfinder:
 
 coverm:
   threads: 24
+  genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes"
+
 
 catbat:
     threads: 40
@@ -115,5 +117,3 @@ salmon:
        MAG_path_dir: 
          path: "/ibex/project/e3015/FLW_STG_multiomics/output/metagenomics/dereplication/dereplicated_bins/dereplicated_genomes/"
          extension: "fasta"
-
-

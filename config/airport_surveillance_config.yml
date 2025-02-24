@@ -1,17 +1,17 @@
 ---
 tmp_dir: "/ibex/tmp/naras0c"
 output_dir: "/ibex/project/e3018/airport_surveillance/output/"
-data_table: "/ibex/project/e3018/airport_surveillance/binning_input.tsv"
+data_table: "/ibex/project/e3018/airport_surveillance/combined_output.tsv"
+#data_table: "/ibex/project/e3018/airport_surveillance/binning_input.tsv"
 #data_table: "/ibex/project/e3018/airport_surveillance/mg_only_sample_table.tsv"
 genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes"
 input_dir:
-  mt_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/preprocessing"
-  mg_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metagenomics/preprocessing"
-  mt_contig_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/assembly"
-  coassembly_contig_input: "/ibex/project/e3018/airport_surveillance/output/coassembly"
-  dereplication_input: "/ibex/project/e3018/airport_surveillance/output/binning"
-  crispr_link_input: "/ibex/project/e3018/airport_surveillance/output/phage_identification"
-
+    mt_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/preprocessing"
+    mg_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metagenomics/preprocessing"
+    mt_contig_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/assembly"
+    coassembly_contig_input: "/ibex/project/e3018/airport_surveillance/output/coassembly"
+    dereplication_input: "/ibex/project/e3018/airport_surveillance/output/binning"
+    crispr_link_input: "/ibex/project/e3018/airport_surveillance/output/phage_identification"
 
 trimmomatic:
     adapters_path: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/adapters/all_illumina_adapters.fa"
@@ -48,6 +48,7 @@ crisprcasfinder:
 
 coverm:
   threads: 24
+  genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes/fixed_fasta"
 
 catbat:
     threads: 40
@@ -105,4 +106,6 @@ catbat:
 bakta:
     db_path: "/ibex/user/naras0c/databases/bakta/db"
 
-
+quantification:
+    catalogues:
+        human_viruses: "/ibex/project/e3018/airport_surveillance/human_virus_database/GCA_039340285.1.fasta"

@@ -9,7 +9,7 @@ rule catbat_classification:
         tx_path=lambda wildcards: config['catbat']['tx_path'][wildcards.db_name]
     threads: 40
     conda: 
-        "../../envs/catbat_env.yml"
+        "../../../envs/catbat_env.yml"
     container:
         "/ibex/user/naras0c/singularity/catbat/catbat.simg"
     shadow: "shallow"
@@ -45,7 +45,7 @@ rule catbat_summary:
         tx_path=lambda wildcards: config['catbat']['tx_path'][wildcards.db_name],
         catpack_script=config['catbat']['catpack_script']
     conda: 
-        "../../envs/catbat_env.yml"
+        "../../../envs/catbat_env.yml"
     container:
         "/ibex/user/naras0c/singularity/catbat/catbat.simg"
     benchmark: "catbat/benchmarks/{db_name}_catbat_summary.txt"

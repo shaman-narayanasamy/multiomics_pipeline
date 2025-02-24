@@ -214,3 +214,15 @@ semibin_multi_sample:
     ncpus: 36
     mem_gb: "500GB"
     time: "8-0:00:00"
+
+crass:
+    nodes: 1
+    ncpu: 12
+    mem_gb: "120GB" 
+    time: "24:00:00"
+
+mmseqs2:
+    nodes: 1
+    ncpu: 24
+    mem_gb: "250GB" 
+    time: "8-0:00:00"
