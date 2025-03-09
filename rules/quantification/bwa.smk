@@ -1,6 +1,6 @@
 rule bwa_index_assembly:
     input:
-        fasta = lambda wildcards: config["quantification"]["catalogues"][wildcards.catalogue]
+        fasta = lambda wildcards: config["quantification"]["catalogues"][wildcards.catalogue]["fasta"]
     output:
         "{catalogue}/sequences.fa",
         "{catalogue}/sequences.fa.amb",

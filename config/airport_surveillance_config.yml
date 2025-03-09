@@ -104,8 +104,17 @@ catbat:
     catpack_script: "/home/naras0c/repositories/github/CAT_pack/CAT_pack/CAT_pack"
 
 bakta:
-    db_path: "/ibex/user/naras0c/databases/bakta/db"
+    db_path: "/ibex/user/naras0c/databases/bakta/db" 
+    custom_dbs:  ## Can only include protein databases
+        card_homologs: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_homolog_model-forBakta.fasta"
+        card_knockout: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_knockout_model-forBakta.fasta"
+        card_overespression: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_overexpression_model-forBakta.fasta"
+        card_variant_model: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_variant_model-forBakta.fasta"
 
 quantification:
     catalogues:
-        human_viruses: "/ibex/project/e3018/airport_surveillance/human_virus_database/GCA_039340285.1.fasta"
+        human_viruses: 
+            fasta: "/ibex/project/e3018/airport_surveillance/human_virus_database/GCA_039340285.1.fasta"
+              #        nr_contigs: 
+              #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_dereplicated_genomes.fasta"
+              #            bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"

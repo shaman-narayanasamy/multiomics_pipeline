@@ -47,18 +47,29 @@ include:
 include:
     '../rules/quantification/bwa.smk'
 
+if "bed" in config["quantification"]["catalogues"][catalogue]: 
+    include: '../rules/quantification/get_gene_alignments.smk'
+
 # Pre-compute the outputs
 all_outputs = []
 
-# Generate outputs dynamically
+all_coverm_inputs = []
+subset_bam_outputs = []
+
 for sample, otypes in omics_mapping.items():
     for omics in otypes:
         for catalogue in catalogues:
-            all_outputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
-            all_outputs.append(f"flagstats/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.flagstat.txt")
+            # Always include standard BAM
+            all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
+
+            # Only add gene-level BAM if the catalogue has a BED file
+            if "bed" in config["quantification"]["catalogues"][catalogue]:
+                gene_bam = f"alignments/{catalogue}/{omics}/{sample}.{omics}.genes.reads.sorted.bam"
+                all_coverm_inputs.append(gene_bam)
+                subset_bam_outputs.append(gene_bam)
 
 # Define the all rule
 rule all:
     input:
-        all_outputs,
+        all_coverm_inputs,  # Will automatically include subset_bam outputs when needed
         expand("coverage/{catalogue}/{omics}/coverm", catalogue = catalogues, omics = ["metagenomics", "metatranscriptomics"])

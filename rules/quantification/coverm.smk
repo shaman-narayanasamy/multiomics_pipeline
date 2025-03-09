@@ -1,10 +1,22 @@
 # Precompute inputs
+#all_coverm_inputs = []
+#
+#for sample, otypes in omics_mapping.items():
+#    for omics in otypes:
+#        for catalogue in catalogues:
+#            all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
+#            all_coverm_inputs.append(f"alignments/{catalogue}/genes/{omics}/{sample}.{omics}.reads.sorted.bam")
+
 all_coverm_inputs = []
 
 for sample, otypes in omics_mapping.items():
     for omics in otypes:
         for catalogue in catalogues:
             all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
+
+            # Only add gene-level BAM if the catalogue has a BED file
+            if "bed" in config["quantification"]["catalogues"][catalogue]:
+                all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.genes.reads.sorted.bam")
 
 rule coverm:
     input:
