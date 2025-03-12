@@ -124,12 +124,11 @@ penguin_assembly:
     mem_gb: "1000GB"
     time: "120:00:00"
 
-salmon_index_catalogues:
+salmon_index_catalogue:
     nodes: 1
-    ncpus: 14
+    ncpus: 24
     mem_gb: "128GB"
     time: "48:00:00"
-
 
 salmon_quant_all:
     nodes: 1

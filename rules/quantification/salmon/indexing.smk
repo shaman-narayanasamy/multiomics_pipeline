@@ -4,7 +4,7 @@ rule salmon_index_catalogue:
     output:
         index_dir=directory("coverage/salmon/{catalogue}/index"),
         fixed_fasta="coverage/salmon/{catalogue}/fixed.fasta"
-    threads: 14
+    threads: 24
     conda: 
         "salmon_env"
     container:

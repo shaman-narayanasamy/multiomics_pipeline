@@ -22,9 +22,9 @@ rule salmon_quant:
     log: "coverage/salmon/{catalogue}/{omics}/{sample}/log/salmon_quant.log"
     shell:
         """
-        salmon quant -i {input.index} -l {params.lib_type} \
+        salmon quant -i {input.index_dir} -l {params.lib_type} \
                      -1 {input.r1} -2 {input.r2} \
                      -p {threads} \
-                     -o {output.quant_outdir} \
+                     -o {params.quant_outdir} \
                      --minAssignedFrags 1
         """
