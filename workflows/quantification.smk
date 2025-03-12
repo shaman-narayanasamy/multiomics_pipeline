@@ -1,26 +1,21 @@
-import subprocess
+import os
 import pandas as pd
 
 tmp_dir = os.environ.get("tmp_dir", config['tmp_dir'])
 
-## Input input directory
+## Define input directories
 mt_reads_dir = config["input_dir"]["mt_assembly_input"]
 mg_reads_dir = config["input_dir"]["mg_assembly_input"]
 
 ## Define output directory
-output_dir = os.path.join(config['output_dir'],  "quantification")
+output_dir = os.path.join(config['output_dir'], "quantification")
 
 # Read the samples table
-samples = pd.read_table(
-    config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str}
-).set_index("sample_alias", drop=False)
+samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
+samples.set_index("sample_alias", drop=False, inplace=True)
 
-# Define a function to process omics types
+# Function to map samples to omics types
 def create_omics_mapping(samples_df):
-    """
-    Creates a mapping of sample aliases to their omics types.
-    Returns a dictionary with sample aliases as keys and a list of omics types as values.
-    """
     return {
         str(row["sample_alias"]): (
             ["metagenomics", "metatranscriptomics"] if row["omics"] == "both" else [row["omics"]]
@@ -28,10 +23,10 @@ def create_omics_mapping(samples_df):
         for _, row in samples_df.iterrows()
     }
 
-# Create the mapping
+# Create mapping
 omics_mapping = create_omics_mapping(samples)
 
-# Construct a list of catalogues from the config file
+# Extract catalogues
 catalogues = list(config["quantification"]["catalogues"].keys())
 
 # Debugging output
@@ -41,35 +36,23 @@ print("Catalogues:", catalogues)
 workdir:
     output_dir
 
-include:
-    '../rules/quantification/coverm.smk'
+# Include relevant rules
+include: '../rules/quantification/salmon/indexing.smk'
+include: '../rules/quantification/salmon/pseudoalignment.smk'
 
-include:
-    '../rules/quantification/bwa.smk'
-
-if "bed" in config["quantification"]["catalogues"][catalogue]: 
+# Check if any catalogue has a BED file and include the rule if needed
+if any("bed" in config["quantification"]["catalogues"][c] for c in catalogues):
     include: '../rules/quantification/get_gene_alignments.smk'
 
-# Pre-compute the outputs
-all_outputs = []
-
-all_coverm_inputs = []
-subset_bam_outputs = []
+# Collect all outputs for Salmon quantification
+salmon_quant_outputs = []
 
 for sample, otypes in omics_mapping.items():
     for omics in otypes:
         for catalogue in catalogues:
-            # Always include standard BAM
-            all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
-
-            # Only add gene-level BAM if the catalogue has a BED file
-            if "bed" in config["quantification"]["catalogues"][catalogue]:
-                gene_bam = f"alignments/{catalogue}/{omics}/{sample}.{omics}.genes.reads.sorted.bam"
-                all_coverm_inputs.append(gene_bam)
-                subset_bam_outputs.append(gene_bam)
+            salmon_quant_outputs.append(f"coverage/{catalogue}/{omics}/{sample}/salmon/quant.sf")
 
 # Define the all rule
 rule all:
     input:
-        all_coverm_inputs,  # Will automatically include subset_bam outputs when needed
-        expand("coverage/{catalogue}/{omics}/coverm", catalogue = catalogues, omics = ["metagenomics", "metatranscriptomics"])
+        salmon_quant_outputs

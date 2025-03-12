@@ -114,7 +114,7 @@ bakta:
 quantification:
     catalogues:
         human_viruses: 
-            fasta: "/ibex/project/e3018/airport_surveillance/human_virus_database/GCA_039340285.1.fasta"
+            fasta: "/ibex/project/e3018/airport_surveillance/human_virus_database/all_human_viruses_cleaned.fasta"
               #        nr_contigs: 
               #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_dereplicated_genomes.fasta"
               #            bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
