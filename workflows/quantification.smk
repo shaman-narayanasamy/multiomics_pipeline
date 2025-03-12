@@ -50,7 +50,7 @@ salmon_quant_outputs = []
 for sample, otypes in omics_mapping.items():
     for omics in otypes:
         for catalogue in catalogues:
-            salmon_quant_outputs.append(f"coverage/{catalogue}/{omics}/{sample}/salmon/quant.sf")
+            salmon_quant_outputs.append(f"coverage/salmon/{catalogue}/{omics}/{sample}/quant.sf")
 
 # Define the all rule
 rule all:

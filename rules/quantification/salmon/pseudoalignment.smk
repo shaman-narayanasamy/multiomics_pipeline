@@ -11,8 +11,8 @@ rule salmon_quant:
         quant_out = directory("coverage/salmon/{catalogue}/{omics}/{sample}/quant.sf")
     params:
         lib_type = "A",  # Automatic detection of library type. Adjust as necessary.
-        min_assigned_frags = config['salmon']['min_assigned_frags']
-        quant_outdir = directory("coverage/salmon/{catalogue}/{omics}/{sample}")
+        min_assigned_frags = config['salmon']['min_assigned_frags'],
+        quant_outdir = "coverage/salmon/{catalogue}/{omics}/{sample}"
     threads: 14     # Adjust based on available resources
     conda: 
         "salmon_env"
