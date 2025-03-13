@@ -8,7 +8,7 @@ rule salmon_quant:
             if wildcards.omics == "metagenomics"
             else f"{mt_reads_dir}/{wildcards.sample}/{wildcards.sample}_R2.processed.fastq.gz",
     output:
-        quant_out = directory("coverage/salmon/{catalogue}/{omics}/{sample}/quant.sf")
+        quant_out = "coverage/salmon/{catalogue}/{omics}/{sample}/quant.sf"
     params:
         lib_type = "A",  # Automatic detection of library type. Adjust as necessary.
         min_assigned_frags = config['salmon']['min_assigned_frags'],
