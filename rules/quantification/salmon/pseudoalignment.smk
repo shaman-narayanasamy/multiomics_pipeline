@@ -26,5 +26,5 @@ rule salmon_quant:
                      -1 {input.r1} -2 {input.r2} \
                      -p {threads} \
                      -o {params.quant_outdir} \
-                     --minAssignedFrags 1
+                     --minAssignedFrags 0
         """

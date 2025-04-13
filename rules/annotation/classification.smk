@@ -1,6 +1,7 @@
 rule catbat_classification:
     input:
-        bin_folder = config["genomes_dir"]
+        #bin_folder = config["genomes_dir"]
+        bin_fasta = lambda wildcards: genome_index[wildcards.bin_id],
     output:
         donefile = "catbat/{db_name}/catbat.done",
         bin_classification = "catbat/{db_name}/BAT.bin2classification.txt"

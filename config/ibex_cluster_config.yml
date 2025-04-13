@@ -134,7 +134,7 @@ salmon_quant:
     nodes: 1
     ncpus: 14
     mem_gb: "128GB"
-    time: "24:00:00"
+    time: "6:00:00"
 
 deepmicroclass_predict:
     nodes: 1
@@ -228,8 +228,8 @@ crass:
     mem_gb: "120GB" 
     time: "24:00:00"
 
-mmseqs2:
+mmseqs2_cluster:
     nodes: 1
     ncpu: 24
-    mem_gb: "250GB" 
-    time: "8-0:00:00"
+    mem_gb: "120GB" 
+    time: "120:00:00"

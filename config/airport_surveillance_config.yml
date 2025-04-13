@@ -123,3 +123,20 @@ quantification:
               #non_redundant_representative_contigs:
               #fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
               #            bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
+              #
+cluster_ani:
+    mmseqs2:
+        ## mmseqs2 is good for fast, preliminary run, but the best practice approach is recommended. 
+        ## Therefore, this is implemented to reflect the best practice approach.
+        min_ani: 0.95        # ANI threhold: Match 95% threhold of best practice
+        min_cov: 0.85       # Min coverage threshold: Match 85% of best practice  
+        cov_mode: 1          # Coverage mode (1: shorter sequence relative to long sequence)
+        alignment_mode: 3    # Alignment mode: Use full dynamic programming alignment (like BLAST)
+        cluster_mode: 2      # Clustering mode: Greedy centroid selection mode
+        max_seqs: 1000        # Max sequences per iteration/thread
+    best_practice:
+        min_ani: 95
+        min_tcov: 85
+        min_qcov: 0
+        min_length: 1
+
