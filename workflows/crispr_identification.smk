@@ -36,7 +36,7 @@ omics_mapping = create_omics_mapping(samples)
 
 
 # Debugging output
-print("Omics mapping:", omics_mapping)
+#print("Omics mapping:", omics_mapping)
 
 workdir:
     output_dir

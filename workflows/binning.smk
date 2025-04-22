@@ -2,7 +2,7 @@ import subprocess
 import pandas as pd
 
 ## Define input directory
-input_dir = config["input_dir"]["coassembly_contig_input"]
+#input_dir = config["input_dir"]["coassembly_contig_input"]
 
 ## Define output directory
 output_dir = os.path.join(config['output_dir'],  "binning")

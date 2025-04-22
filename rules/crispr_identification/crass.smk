@@ -15,10 +15,11 @@ rule crass_reads_metagenomics:
         repeats="{sample}/crass_reads_out/metagenomics/repeats.fa",
         flanks="{sample}/crass_reads_out/metagenomics/flanks.fa",
     params:
-        threads = 12
+        threads = 40
     group: "crass"
     log: "{sample}/logs/metagenomics_crass_reads.txt",
-    conda: "../../envs/crass_env.yml",
+    #conda: "../../envs/crass_env.yml",
+    conda: "crass_env",
     shell:
         """
         crass -o {wildcards.sample}/crass_reads_out/metagenomics \
@@ -40,13 +41,13 @@ rule crass_reads_metagenomics:
 rule crass_reads_metatranscriptomics:
     input:
         filtered_mt_paired_read_1=lambda wildcards: os.path.join(
-            config["output_dir"], f"metatranscriptomics/preprocessing/{wildcards.sample}/{wildcards.sample}_R1.processed.fastq.gz"
+            config["output_dir"], f"metatranscriptomics/preprocessing/{wildcards.sample}/{wildcards.sample}_R1.processed.filtered.fastq.gz"
         ),
         filtered_mt_paired_read_2=lambda wildcards: os.path.join(
-            config["output_dir"], f"metatranscriptomics/preprocessing/{wildcards.sample}/{wildcards.sample}_R2.processed.fastq.gz"
+            config["output_dir"], f"metatranscriptomics/preprocessing/{wildcards.sample}/{wildcards.sample}_R2.processed.filtered.fastq.gz"
         ),
         filtered_mt_unpaired_read=lambda wildcards: os.path.join(
-            config["output_dir"], f"metatranscriptomics/preprocessing/{wildcards.sample}/{wildcards.sample}_SE.processed.fastq.gz"
+            config["output_dir"], f"metatranscriptomics/preprocessing/{wildcards.sample}/{wildcards.sample}_SE.processed.filtered.fastq.gz"
         ),
     output:
         outfile="{sample}/crass_reads_out/metatranscriptomics/crass.crispr",
@@ -54,10 +55,11 @@ rule crass_reads_metatranscriptomics:
         repeats="{sample}/crass_reads_out/metatranscriptomics/repeats.fa",
         flanks="{sample}/crass_reads_out/metatranscriptomics/flanks.fa",
     params:
-        threads = 12
+        threads = 40
     group: "crass"
     log: "{sample}/logs/metatranscriptomics_crass_reads.txt",
-    conda: "../../envs/crass_env.yml",
+    #conda: "../../envs/crass_env.yml",
+    conda: "crass_env",
     shell:
         """
         crass -o {wildcards.sample}/crass_reads_out/metatranscriptomics \
@@ -102,9 +104,10 @@ rule crass_contigs:
         repeats = "{sample}/crass_contigs_out/repeats.fa",
         flanks = "{sample}/crass_contigs_out/flanks.fa"
     params:
-        threads = 12
+        threads = 40
     group: "crass"
-    conda: "../../envs/crass_env.yml"
+    #conda: "../../envs/crass_env.yml"
+    conda: "crass_env",
     benchmark: "{sample}/benchmarks/crass_contigs.txt"
     log: "{sample}/logs/crass_contigs.txt"
     shell:
@@ -143,7 +146,7 @@ rule cluster_crispr_spacers:
         "spacers_all_seqs.fasta"
     params: 
         threads = 24
-    group: "mmseqs2"
+    group: "mmseqs2_cluster"
     conda: "mmseqs2_env"
     benchmark: "benchmarks/crass_cluster_spacers.txt"
     log: "logs/crass_cluster_spacers.log"
@@ -180,7 +183,7 @@ rule cluster_crispr_repeats:
         "repeats_all_seqs.fasta"
     params: 
         threads = 24
-    group: "mmseqs2"
+    group: "mmseqs2_cluster"
     conda: "mmseqs2_env"
     benchmark: "benchmarks/crass_cluster_repeats.txt"
     log: "logs/crass_cluster_repeats.txt"
@@ -218,7 +221,7 @@ rule cluster_crispr_flanks:
         "flanks_all_seqs.fasta"
     params: 
         threads = 24
-    group: "mmseqs2"
+    group: "mmseqs2_cluster"
     conda: "mmseqs2_env"
     benchmark: "benchmarks/crass_cluster_flanks.txt"
     log: "logs/crass_cluster_flanks.txt"

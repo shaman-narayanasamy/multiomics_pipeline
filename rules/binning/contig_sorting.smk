@@ -2,14 +2,17 @@ rule deepmicroclass_predict:
     input:
         fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"]
     output:
-        predictions = "{sample}/DeepMicroClass/{input.fasta}_pred_one-hot_hybrid.tsv"
-    container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
+        predictions = "{sample}/DeepMicroClass/contigs.fa_pred_one-hot_hybrid.tsv"
+    conda: "deepmicroclass_env"
+    #container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
     shadow: "shallow"
     benchmark: os.path.join("{sample}/benchmarks/deepmicroclass_predict.txt")
     log: os.path.join("{sample}/logs/deepmicroclass_predict.log")
     shell:
         """
-        DeepMicroClass predict -i {input.fasta} -o {wildcards.sample}/DeepMicroClass
+        mkdir -p {wildcards.sample}/DeepMicroClass
+        ln -s {input.fasta} {wildcards.sample}/DeepMicroClass/contigs.fa
+        DeepMicroClass predict -i {wildcards.sample}/DeepMicroClass/contigs.fa -o {wildcards.sample}/DeepMicroClass
         """
 
 rule deepmicroclass_extract:
@@ -18,14 +21,17 @@ rule deepmicroclass_extract:
         #predictions = "{sample}/DeepMicroClass/{sample}.coassembly_contigs.fa_pred_one-hot_hybrid.tsv"
         #predictions = "{sample}/DeepMicroClass/{input.fasta}_pred_one-hot_hybrid.tsv"
         #predictions=lambda wildcards, input: f"{wildcards.sample}/DeepMicroClass/{os.path.basename(input.fasta)}_pred_one-hot_hybrid.tsv"
-        predictions=lambda wildcards: f"{wildcards.sample}/DeepMicroClass/{os.path.basename(samples.at[wildcards.sample, 'fasta'])}_pred_one-hot_hybrid.tsv"
+        #predictions=lambda wildcards: f"{wildcards.sample}/DeepMicroClass/{os.path.basename(samples.at[wildcards.sample, 'fasta'])}_pred_one-hot_hybrid.tsv"
+        #predictions = "{sample}/DeepMicroClass/{input.fasta}_pred_one-hot_hybrid.tsv"
+        predictions = "{sample}/DeepMicroClass/contigs.fa_pred_one-hot_hybrid.tsv"
     output:
         prokaryotes = "{sample}/DeepMicroClass/prokaryotes.fa",
         eukaryotes = "{sample}/DeepMicroClass/eukaryotes.fa",
         prokaryotic_viruses = "{sample}/DeepMicroClass/prokaryotic_viruses.fa",
         eukaryotic_viruses = "{sample}/DeepMicroClass/eukaryotic_viruses.fa",
         plasmids = "{sample}/DeepMicroClass/plasmids.fa"
-    container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
+    #container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
+    conda: "deepmicroclass_env"
     shadow: "shallow"
     benchmark: os.path.join("{sample}/benchmarks/deepmicroclass_extract.txt")
     log: os.path.join("{sample}/logs/deepmicroclass_extract.log")

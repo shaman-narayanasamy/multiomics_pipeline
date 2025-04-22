@@ -1,7 +1,7 @@
 ---
 tmp_dir: "/ibex/tmp/naras0c"
 output_dir: "/ibex/project/e3018/airport_surveillance/output/"
-data_table: "/ibex/project/e3018/airport_surveillance/combined_output.tsv"
+data_table: "/ibex/project/e3018/airport_surveillance/combined_output.tsv" ## This is for the CRISPR analysis
 #data_table: "/ibex/project/e3018/airport_surveillance/binning_input.tsv"
 #data_table: "/ibex/project/e3018/airport_surveillance/mg_only_sample_table.tsv"
 genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes"

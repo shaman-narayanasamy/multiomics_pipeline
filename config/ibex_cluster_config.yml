@@ -224,9 +224,9 @@ semibin_multi_sample:
 
 crass:
     nodes: 1
-    ncpu: 12
+    ncpu: 40
     mem_gb: "120GB" 
-    time: "24:00:00"
+    time: "48:00:00"
 
 mmseqs2_cluster:
     nodes: 1
