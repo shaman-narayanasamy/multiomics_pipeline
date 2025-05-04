@@ -11,7 +11,7 @@ output_dir = os.path.join(config['output_dir'], "metatranscriptomics", "assembly
 
 ## Define input files
 # Read the sample table
-samples = pd.read_table(config["data_tables"]["all"], sep="\t", comment="#", dtype={"sample_alias": str})
+samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
 samples = samples.dropna(subset=["MT_R1", "MT_R2"])
 samples.set_index("sample_alias", drop=False, inplace=True)
 

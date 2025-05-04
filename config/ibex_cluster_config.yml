@@ -100,12 +100,6 @@ crisprcasfinder:
     mem_gb: "120GB"
     time: "14-0:00:00"
 
-coverm:
-    nodes: 1
-    ncpus: 24
-    mem_gb: "120GB"
-    time: "5-0:00:00"
-
 catbat_classification:
     nodes: 1
     ncpus: 24
@@ -207,7 +201,7 @@ coverm_genomes:
 semibin_multi_sample_get_abundance:
     nodes: 1
     ncpus: 24
-    mem_gb: "250GB"
+    mem_gb: "500GB"
     time: "120:00:00"
 
 semibin_multi_sample_split_contigs:
@@ -233,3 +227,23 @@ mmseqs2_cluster:
     ncpu: 24
     mem_gb: "120GB" 
     time: "120:00:00"
+
+bwa_mapping_catalogue:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "250GB"
+    time: "72:00:00"
+
+coverm_contigs:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "120GB"
+    time: "5-0:00:00"
+
+bedtools_gene_coverage:
+    nodes: 1
+    ncpus: 24
+    mem_gb: "96GB"
+    time: "5-0:00:00"
+
+

@@ -4,6 +4,7 @@ output_dir: "/ibex/project/e3018/airport_surveillance/output/"
 data_table: "/ibex/project/e3018/airport_surveillance/combined_output.tsv" ## This is for the CRISPR analysis
 #data_table: "/ibex/project/e3018/airport_surveillance/binning_input.tsv"
 #data_table: "/ibex/project/e3018/airport_surveillance/mg_only_sample_table.tsv"
+#data_table: ""
 genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes"
 input_dir:
     mt_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/preprocessing"
@@ -111,19 +112,24 @@ bakta:
         card_overespression: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_overexpression_model-forBakta.fasta"
         card_variant_model: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_variant_model-forBakta.fasta"
 
-quantification:
-    catalogues:
-        non_redundant_representative_contigs:
-            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
-        rMAG_genes:
-            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/rMAG_genes/all_rMAG_genes.fasta"
-        human_viruses: 
-            fasta: "/ibex/project/e3018/airport_surveillance/human_virus_database/all_human_viruses_cleaned.fasta"
-
-              #non_redundant_representative_contigs:
-              #fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
-              #            bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
+          #catalogue:
+          #  non_redundant_representative_contigs:
+          #        fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
+          #        bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
+          #
+catalogues:
+  non_redundant_representative_contigs:
+              fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
+              bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
               #
+      #        non_redundant_representative_contigs:
+      #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
+      #        rMAG_genes:
+      #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/rMAG_genes/all_rMAG_genes.fasta"
+      #        human_viruses: 
+      #            fasta: "/ibex/project/e3018/airport_surveillance/human_virus_database/all_human_viruses_cleaned.fasta"
+
+              
 cluster_ani:
     mmseqs2:
         ## mmseqs2 is good for fast, preliminary run, but the best practice approach is recommended. 

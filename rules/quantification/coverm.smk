@@ -7,36 +7,43 @@
 #            all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
 #            all_coverm_inputs.append(f"alignments/{catalogue}/genes/{omics}/{sample}.{omics}.reads.sorted.bam")
 
-all_coverm_inputs = []
+#all_coverm_inputs = []
+#
+#for sample, otypes in omics_mapping.items():
+#    for omics in otypes:
+#        for catalogue in catalogues:
+#            all_coverm_inputs.append(f"{catalogue}/alignments/{omics}/{sample}.{omics}.reads.sorted.bam")
 
-for sample, otypes in omics_mapping.items():
-    for omics in otypes:
-        for catalogue in catalogues:
-            all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.reads.sorted.bam")
+all_coverm_inputs = [
+    f"{catalogue}/alignments/{omics}/{sample}.{omics}.reads.sorted.bam"
+    for sample, omics in valid_sample_omics
+    for catalogue in catalogues
+]
 
-            # Only add gene-level BAM if the catalogue has a BED file
-            if "bed" in config["quantification"]["catalogues"][catalogue]:
-                all_coverm_inputs.append(f"alignments/{catalogue}/{omics}/{sample}.{omics}.genes.reads.sorted.bam")
-
-rule coverm:
+rule coverm_contigs:
     input:
-       all_coverm_inputs,
-       fasta = "{catalogue}/sequences.fa",
+       bams = all_coverm_inputs,
+       fasta = "indexes/{catalogue}/sequences.fa",
     output:
-       out_dir = directory("coverage/{catalogue}/{omics}/coverm"),
+       out_dir = directory("{catalogue}/coverage/{omics}/coverm"),
     threads: 24
     conda: 
        "coverm_env"
-    benchmark: "coverage/{catalogue}/{omics}/benchmarks/coverm.txt"
-    log: "coverage/{catalogue}/{omics}/log/coverm.log"
+    benchmark: "{catalogue}/coverage/{omics}/benchmarks/coverm.txt"
+    log: "{catalogue}/coverage/{omics}/log/coverm.log"
     shell:
        """
        mkdir -p {output.out_dir}
  
-       coverm contig -b coverage/{wildcards.catalogue}/{wildcards.omics} -r {input.fasta} \
-       -m relative_abundance mean trimmed_mean count reads_per_base rpkm tpm covered_fraction covered_bases length \
-       -o {output.out_dir}/output --use-full-contig-names -t {threads}
+       coverm contig -b {input.bams} -r {input.fasta} \
+       -m mean trimmed_mean count reads_per_base rpkm tpm covered_fraction covered_bases length \
+       -o {output.out_dir}/output.tsv -t {threads}
        """
+
+       #coverm contig -b {wildcards.catalogue}/alignments/{wildcards.omics}/*/*.bam \
+       #coverm contig -b coverage/{wildcards.catalogue}/{wildcards.omics} -r {input.fasta} \
+       
+
 
 #rule coverm_genomes_mt:
 #    input:

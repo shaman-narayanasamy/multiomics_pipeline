@@ -13,7 +13,8 @@ output_dir = os.path.join(config['output_dir'], "coassembly")
 
 ## Define input files
 # Read the sample table
-samples = pd.read_table(config["data_table"], sep="\t", comment = "#").set_index("sample_alias", drop=False)
+sample_ids = pd.read_table(config["data_table"], sep="\t", comment = "#").set_index("sample_alias", drop=False)
+samples = sample_ids.index
 
 workdir:
     output_dir

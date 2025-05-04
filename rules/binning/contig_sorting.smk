@@ -11,7 +11,7 @@ rule deepmicroclass_predict:
     shell:
         """
         mkdir -p {wildcards.sample}/DeepMicroClass
-        ln -s {input.fasta} {wildcards.sample}/DeepMicroClass/contigs.fa
+        ln -fs {input.fasta} {wildcards.sample}/DeepMicroClass/contigs.fa
         DeepMicroClass predict -i {wildcards.sample}/DeepMicroClass/contigs.fa -o {wildcards.sample}/DeepMicroClass
         """
 
