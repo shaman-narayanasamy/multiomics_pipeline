@@ -23,3 +23,17 @@ rule penguin_assembly:
 
        rm -rf {wildcards.sample}/penguin_assembly/tmp
        """
+
+rule rename_contigs:
+    input:
+        assembly_fasta="{sample}/penguin_assembly/final.contigs.fa",
+    output:
+        assembly_fasta="{sample}/penguin_assembly/{sample}.penguin_contigs.fa",
+    shell:
+        """
+        sample_id="{wildcards.sample}"
+        
+	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_contig_" substr($1, 2); next}} 1' \
+        {input.assembly_fasta} > {output.assembly_fasta}
+        """
+

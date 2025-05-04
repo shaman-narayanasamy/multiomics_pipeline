@@ -243,7 +243,5 @@ coverm_contigs:
 bedtools_gene_coverage:
     nodes: 1
     ncpus: 24
-    mem_gb: "96GB"
+    mem_gb: "250GB"
     time: "5-0:00:00"
-
-

@@ -31,6 +31,8 @@ include:
 rule all:
      input:
         expand("{sample}/megahit_assembly/final.contigs.fa", sample = samples.index),
+        expand("{sample}/megahit_assembly/{sample}.megahit_contigs.fa", sample = samples.index),
         expand("{sample}/penguin_assembly/final.contigs.fa", sample = samples.index),
+        expand("{sample}/penguin_assembly/{sample}.penguin_contigs.fa", sample = samples.index),
         expand('{sample}/{sample}_metaT.reads.sorted.bam', sample = samples.index),
         expand('{sample}/{sample}_metaT.reads.sorted.flagstat.txt', sample = samples.index)

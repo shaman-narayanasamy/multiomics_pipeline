@@ -12,8 +12,13 @@ rule bedtools_gene_coverage:
         """
         mkdir -p {wildcards.catalogue}/gene_coverage 
 
-        bedtools coverage -a {input.bed} -b {input.bam} -d \
-        | awk '{{key=$1"\\t"$2"\\t"$3"\\t"$4"\\t"$6; depth[key][7]+=$8; depth[key][8]+=($8>0); depth[key][9]=$3-$2}} 
-                END{{for (k in depth) print k, depth[k][7], depth[k][8], depth[k][9]}}' OFS="\\t" \
-        > {output}
+        bedtools coverage -a {input.bed} -b {input.bam} \
+        | awk 'BEGIN {{
+            OFS="\\t";
+            print "contig", "start", "end", "gene", "strand", "read_count", "covered_bases", "length", "mean_coverage"
+        }}
+        {{
+            len = $3 - $2;
+            print $1, $2, $3, $4, $6, $7, $8, len, $8 / len
+        }}' > {output}
         """

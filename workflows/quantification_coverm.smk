@@ -32,7 +32,7 @@ all_alignments = [
 ]
 
 all_indexes = [
-    f"indexes/{catalogue}/sequences.fa" for catalogue in catalogues
+    f"{catalogue}/indexes/sequences.fa" for catalogue in catalogues
 ]
 
 all_coverm = [

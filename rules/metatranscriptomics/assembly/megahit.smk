@@ -21,3 +21,17 @@ rule megahit:
        -o {wildcards.sample}/megahit_assembly \
        -t {threads}
        """ 
+
+rule rename_megahit_contigs:
+    input:
+        assembly_fasta="{sample}/megahit_assembly/final.contigs.fa",
+    output:
+        assembly_fasta="{sample}/megahit_assembly/{sample}.megahit_contigs.fa",
+    shell:
+        """
+        sample_id="{wildcards.sample}"
+        
+	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_contig_" substr($1, 2); next}} 1' \
+        {input.assembly_fasta} > {output.assembly_fasta}
+        """
+
