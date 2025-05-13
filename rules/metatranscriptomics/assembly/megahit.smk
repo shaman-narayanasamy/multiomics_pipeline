@@ -31,7 +31,7 @@ rule rename_megahit_contigs:
         """
         sample_id="{wildcards.sample}"
         
-	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_contig_" substr($1, 2); next}} 1' \
+	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_megahit_contig_" substr($1, 2); next}} 1' \
         {input.assembly_fasta} > {output.assembly_fasta}
         """
 

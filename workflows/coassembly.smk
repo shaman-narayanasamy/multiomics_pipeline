@@ -36,12 +36,12 @@ include:
 
 rule all:
      input:
-        expand("{sample}/megahit_assembly/final.contigs.fa", sample = samples.index),
-        expand("{sample}/{sample}.coassembly_contigs.fa", sample = samples.index),
-        expand("{sample}/{sample}_metaG.reads.sorted.bam", sample = samples.index),
-        expand("{sample}/{sample}_metaG.reads.sorted.bam.bai", sample = samples.index),
-        expand("{sample}/{sample}_metaG.reads.sorted.flagstat.txt", sample = samples.index),
-        expand("{sample}/{sample}_metaT.reads.sorted.bam", sample = samples.index),
-        expand("{sample}/{sample}_metaT.reads.sorted.bam.bai", sample = samples.index),
-        expand("{sample}/{sample}_metaT.reads.sorted.flagstat.txt", sample = samples.index),
-        expand('{sample}/coverm/{sample}_coverage.out', sample = samples.index),
+        expand("{sample}/megahit_assembly/final.contigs.fa", sample = samples),
+        expand("{sample}/{sample}.coassembly_contigs.fa", sample = samples),
+        expand("{sample}/{sample}_metaG.reads.sorted.bam", sample = samples),
+        expand("{sample}/{sample}_metaG.reads.sorted.bam.bai", sample = samples),
+        expand("{sample}/{sample}_metaG.reads.sorted.flagstat.txt", sample = samples),
+        expand("{sample}/{sample}_metaT.reads.sorted.bam", sample = samples),
+        expand("{sample}/{sample}_metaT.reads.sorted.bam.bai", sample = samples),
+        expand("{sample}/{sample}_metaT.reads.sorted.flagstat.txt", sample = samples),
+        expand('{sample}/coverm/{sample}_coverage.out', sample = samples),

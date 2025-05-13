@@ -1,8 +1,8 @@
 rule bwa_mt_mapping_on_assembly:
     input:
-        r_1 = os.path.join(mt_reads_dir, "{sample}/{sample}_R1.processed.fastq.gz"),
-        r_2 = os.path.join(mt_reads_dir, "{sample}/{sample}_R2.processed.fastq.gz"),
-        r_se = os.path.join(mt_reads_dir, "{sample}/{sample}_SE.processed.fastq.gz"),
+        r_1 = os.path.join(mt_reads_dir, "{sample}/{sample}_R1.processed.filtered.fastq.gz"),
+        r_2 = os.path.join(mt_reads_dir, "{sample}/{sample}_R2.processed.filtered.fastq.gz"),
+        r_se = os.path.join(mt_reads_dir, "{sample}/{sample}_SE.processed.filtered.fastq.gz"),
         assembly="{sample}/{sample}.coassembly_contigs.fa",
         assembly_amb="{sample}/{sample}.coassembly_contigs.fa.amb",
         assembly_bwt="{sample}/{sample}.coassembly_contigs.fa.bwt",

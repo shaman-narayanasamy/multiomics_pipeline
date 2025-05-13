@@ -237,8 +237,8 @@ bwa_mapping_catalogue:
 coverm_contigs:
     nodes: 1
     ncpus: 24
-    mem_gb: "120GB"
-    time: "5-0:00:00"
+    mem_gb: "500GB"
+    time: "7-0:00:00"
 
 bedtools_gene_coverage:
     nodes: 1

@@ -120,7 +120,7 @@ bakta:
 catalogues:
   non_redundant_representative_contigs:
               fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
-              bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
+              bed: "/ibex/project/e3018/airport_surveillance/output/annotation/all_MAG_genes.bed"
               #
       #        non_redundant_representative_contigs:
       #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"

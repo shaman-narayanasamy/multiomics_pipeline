@@ -36,7 +36,7 @@ all_indexes = [
 ]
 
 all_coverm = [
-    f"{catalogue}/coverage/{omics}/coverm"
+    f"{catalogue}/coverage/{omics}/coverm/output.tsv"
     for sample, omics in valid_sample_omics
     for catalogue in catalogues
 ]
@@ -48,14 +48,6 @@ all_gene_cov = [
     if "bed" in config["catalogues"][catalogue]
 ]
 
-# --- Final Rule ---
-rule all:
-    input:
-        all_alignments,
-        all_indexes,
-        all_coverm,
-        all_gene_cov
-
 # --- Include Rules ---
 include: '../rules/quantification/coverm.smk'
 include: '../rules/quantification/bwa.smk'
@@ -66,4 +58,13 @@ if any("bed" in config["catalogues"][cat] for cat in catalogues):
 # --- Set Working Directory ---
 workdir:
     output_dir
+
+# --- Final Rule ---
+rule all:
+    input:
+        all_alignments,
+        all_indexes,
+        all_coverm,
+        all_gene_cov,
+	split_coverm_outputs
 

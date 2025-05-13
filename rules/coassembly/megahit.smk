@@ -13,9 +13,9 @@ rule megahit:
         filtered_mg_paired_read_1 = os.path.join(mg_reads_dir, "{sample}/{sample}_R1.processed.fastq.gz"),
         filtered_mg_paired_read_2 = os.path.join(mg_reads_dir, "{sample}/{sample}_R2.processed.fastq.gz"),
         filtered_mg_unpaired_read = os.path.join(mg_reads_dir, "{sample}/{sample}_SE.processed.fastq.gz"),
-        filtered_mt_paired_read_1 = os.path.join(mt_reads_dir, "{sample}/{sample}_R1.processed.fastq.gz"),
-        filtered_mt_paired_read_2 = os.path.join(mt_reads_dir, "{sample}/{sample}_R2.processed.fastq.gz"),
-        filtered_mt_unpaired_read = os.path.join(mt_reads_dir, "{sample}/{sample}_SE.processed.fastq.gz"),
+        filtered_mt_paired_read_1 = os.path.join(mt_reads_dir, "{sample}/{sample}_R1.processed.filtered.fastq.gz"),
+        filtered_mt_paired_read_2 = os.path.join(mt_reads_dir, "{sample}/{sample}_R2.processed.filtered.fastq.gz"),
+        filtered_mt_unpaired_read = os.path.join(mt_reads_dir, "{sample}/{sample}_SE.processed.filtered.fastq.gz"),
         mt_contigs = "{sample}/{sample}.mt_contigs.fa"
     output:
         assembly_fasta="{sample}/megahit_assembly/final.contigs.fa",

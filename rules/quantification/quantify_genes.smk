@@ -10,15 +10,16 @@ rule bedtools_gene_coverage:
     log: "{catalogue}/gene_coverage/logs/{omics}_{sample}.log"
     shell:
         """
-        mkdir -p {wildcards.catalogue}/gene_coverage 
+        mkdir -p {wildcards.catalogue}/gene_coverage/{wildcards.omics}
 
-        bedtools coverage -a {input.bed} -b {input.bam} \
-        | awk 'BEGIN {{
-            OFS="\\t";
-            print "contig", "start", "end", "gene", "strand", "read_count", "covered_bases", "length", "mean_coverage"
-        }}
-        {{
-            len = $3 - $2;
-            print $1, $2, $3, $4, $6, $7, $8, len, $8 / len
-        }}' > {output}
+        bedtools coverage -a {input.bed} -b {input.bam} > {output}
         """
+
+#        | awk 'BEGIN {{
+#            OFS="\\t";
+#            print "contig", "start", "end", "gene", "strand", "read_count", "covered_bases", "length", "mean_coverage"
+#        }}
+#        {{
+#            len = $3 - $2;
+#            print $1, $2, $3, $4, $6, $7, $8, len, $8 / len
+#        }}' > {output}

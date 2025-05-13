@@ -17,9 +17,9 @@ rule bwa_index_assembly:
     log: "{catalogue}/indexes/logs/bwa_indexing.txt"
     shell:
         """
-        ln -fs {input.fasta} indexes/{wildcards.catalogue}/sequences.fa
+        ln -fs {input.fasta} {wildcards.catalogue}/indexes/sequences.fa
 
-        bwa index indexes/{wildcards.catalogue}/sequences.fa
+        bwa index {wildcards.catalogue}/indexes/sequences.fa
         """
 
 def get_inputs(wildcards):

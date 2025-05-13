@@ -33,6 +33,6 @@ rule rename_penguin_contigs:
         """
         sample_id="{wildcards.sample}"
         
-	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_contig_" substr($1, 2); next}} 1' \
+	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_penguin_contig_" substr($1, 2); next}} 1' \
         {input.assembly_fasta} > {output.assembly_fasta}
         """
