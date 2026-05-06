@@ -1,3 +1,4 @@
+import os
 import subprocess
 import pandas as pd
 
@@ -12,8 +13,14 @@ samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sam
 samples = samples.dropna(subset=["MG_R1", "MG_R2"])
 samples.set_index("sample_alias", drop=False, inplace=True)
 
+include:
+    '../common/read_staging.smk'
+
 workdir:
     output_dir
+
+include:
+    '../../rules/common/ena_staging.smk'
 
 include:
     '../../rules/metagenomics/preprocessing/trimmomatic.smk'

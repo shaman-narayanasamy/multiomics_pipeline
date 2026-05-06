@@ -1,8 +1,8 @@
 rule salmon_quant_all:
     input:
         index = "salmon/index/all_transcripts",  # Salmon index directory
-        r1 = "%s/{sample_lane}_R1.processed.filtered.fastq.gz" % input_dir,
-        r2 = "%s/{sample_lane}_R2.processed.filtered.fastq.gz" % input_dir
+        r1 = lambda wildcards: mt_quant_read(wildcards.sample_lane, "R1"),
+        r2 = lambda wildcards: mt_quant_read(wildcards.sample_lane, "R2")
     output:
         quant_dir = directory("salmon/all/{sample_lane}_quant")
     params:

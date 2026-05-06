@@ -1,3 +1,4 @@
+import os
 import subprocess
 import yaml
 import pandas as pd
@@ -17,27 +18,52 @@ with open(config["bins_config"], "r") as file:
 tmp_dir = os.environ.get("tmp_dir", config['tmp_dir'])
 
 ## Define input directory
-input_dir = "/scratch/users/snarayanasamy/membrane_cleaning/output/metatranscriptomics/preprocessing"
+input_dir = config["input_dir"].get("mt_quantification_input", config["input_dir"]["mt_assembly_input"])
 
 ## Define output directory
-output_dir = "/scratch/users/snarayanasamy/membrane_cleaning/output/metatranscriptomics/quantification"
+output_dir = os.path.join(config["output_dir"], "metatranscriptomics", "quantification")
 
 ## Define input files
-# Read the sample table
-sample_table = pd.read_csv(config["mt_data_table"], sep="\t", comment = "#")
+def config_bool(value):
+    if isinstance(value, bool):
+        return value
+    return str(value).lower() in {"1", "true", "yes", "y"}
 
-## Extract input files based on the output of the preprocessing workflow
-#input_files = []
-#for _, row in sample_table.iterrows():
-#    sample_name = row['sample']
-#    lane = row['lane']
-#    input_files.append(f"{sample_name}_{lane}_R1.processed.filtered.fastq.gz")
-#    input_files.append(f"{sample_name}_{lane}_R2.processed.filtered.fastq.gz")
 
-## Define samples, lanes and reads for output file wildcards
-samples = sample_table["sample"].tolist()
-lanes = sample_table["lane"].tolist()
-sample_lane_list = [f"{sample}_{lane}" for sample, lane in zip(samples, lanes)]
+MT_CONFIG = config.get("metatranscriptomics", {})
+COMBINE_MT_REPLICATES = config_bool(MT_CONFIG.get("combine_replicates", False))
+MT_REPLICATE_GROUP_COLUMN = MT_CONFIG.get("replicate_group_column", "biological_sample_alias")
+
+if COMBINE_MT_REPLICATES:
+    sample_table = pd.read_csv(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
+    sample_table = sample_table.dropna(subset=["MT_R1", "MT_R2"])
+    if MT_REPLICATE_GROUP_COLUMN not in sample_table.columns:
+        raise ValueError(
+            f"metatranscriptomics.combine_replicates requires column {MT_REPLICATE_GROUP_COLUMN!r}"
+        )
+    sample_lane_list = sorted(sample_table[MT_REPLICATE_GROUP_COLUMN].dropna().astype(str).unique())
+    input_dir = (
+        input_dir
+        if os.path.basename(os.path.normpath(input_dir)) == "combined"
+        else os.path.join(input_dir, "combined")
+    )
+    MT_QUANTIFICATION_INPUT_LAYOUT = "sample_dir"
+else:
+    sample_table = pd.read_csv(config["mt_data_table"], sep="\t", comment="#")
+    samples = sample_table["sample"].tolist()
+    lanes = sample_table["lane"].tolist()
+    sample_lane_list = [f"{sample}_{lane}" for sample, lane in zip(samples, lanes)]
+    MT_QUANTIFICATION_INPUT_LAYOUT = "flat"
+
+
+def mt_quant_read(sample, read):
+    if MT_QUANTIFICATION_INPUT_LAYOUT == "sample_dir":
+        return os.path.join(
+            input_dir,
+            sample,
+            f"{sample}_{read}.processed.filtered.fastq.gz",
+        )
+    return os.path.join(input_dir, f"{sample}_{read}.processed.filtered.fastq.gz")
 
 workdir:
     output_dir

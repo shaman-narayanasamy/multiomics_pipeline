@@ -1,7 +1,7 @@
 rule trimmomatic_trimming:
     input:
-        read_1=lambda wildcards: samples.at[wildcards.sample, "MG_R1"],
-        read_2=lambda wildcards: samples.at[wildcards.sample, "MG_R2"]
+        read_1=lambda wildcards: resolve_read_input(wildcards, "MG_R1", MG_R1_STAGE_PATTERN),
+        read_2=lambda wildcards: resolve_read_input(wildcards, "MG_R2", MG_R2_STAGE_PATTERN)
     output:
         paired_read_1 = "{sample}/{sample}_R1.processed.fastq.gz",
         paired_read_2 = "{sample}/{sample}_R2.processed.fastq.gz",

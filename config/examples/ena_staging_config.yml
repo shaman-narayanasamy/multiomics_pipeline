@@ -1,0 +1,28 @@
+---
+tmp_dir: "/path/to/hpc/scratch/tmp"
+output_dir: "/path/to/project/output/PRJEB79569"
+data_table: "/path/to/project/metadata/PRJEB79569_multiomics_samples.tsv"
+
+input_dir:
+  mt_assembly_input: "/path/to/project/output/PRJEB79569/metatranscriptomics/preprocessing"
+  mt_quantification_input: "/path/to/project/output/PRJEB79569/metatranscriptomics/preprocessing"
+
+data_source:
+  mode: "ena_stage"
+  stage_dir: "/path/to/hpc/scratch/PRJEB79569/staged_reads"
+  keep_staged: false
+  downloader: "curl"
+  retries: 3
+
+trimmomatic:
+  adapters_path: "/path/to/adapters/all_illumina_adapters.fa"
+
+sortmerna:
+  db_path: "/path/to/sortmerna"
+  filter_length: 20
+  human_genome_fasta_path: "/path/to/reference/Homo_sapiens_assembly38.fasta"
+  human_mrna_fasta_path: "/path/to/reference/human_mrna.fa"
+
+metatranscriptomics:
+  combine_replicates: true
+  replicate_group_column: "biological_sample_alias"
