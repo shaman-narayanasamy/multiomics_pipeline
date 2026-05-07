@@ -72,8 +72,12 @@ def parse_args() -> argparse.Namespace:
 def read_optional_metadata(path: str | None) -> dict[str, dict[str, str]]:
     if not path:
         return {}
+    metadata_path = Path(path)
+    if not metadata_path.exists():
+        print(f"WARNING: optional metadata file not found: {path}", file=sys.stderr)
+        return {}
     metadata: dict[str, dict[str, str]] = {}
-    with Path(path).open(newline="") as handle:
+    with metadata_path.open(newline="") as handle:
         reader = csv.DictReader(handle, delimiter="\t")
         for row in reader:
             for key in ("sample_alias", "sample_id", "sample_accession", "run_accession"):

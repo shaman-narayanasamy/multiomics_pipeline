@@ -1,5 +1,18 @@
 ## Using the launcher
 
+## Shared reference convention
+
+Project-specific configs should live in the project or analysis repository that
+launches this pipeline. Reusable references that should not be duplicated across
+projects can be stored under a shared root such as:
+
+```sh
+/mnt/isilon/projects/bioinformatics_platform/projects/shared_references/multiomics_pipeline
+```
+
+For the phage-UV project, this shared root is intended for SortMeRNA databases
+and human transcript references used by metatranscriptomics preprocessing.
+
 ## Input data modes
 
 The preprocessing workflows support two read-input modes:
