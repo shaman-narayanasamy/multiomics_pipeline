@@ -26,3 +26,5 @@ sortmerna:
 metatranscriptomics:
   combine_replicates: true
   replicate_group_column: "biological_sample_alias"
+  stage_retries: 3
+  stage_retry_delay_minutes: 60

@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -32,6 +33,12 @@ def parse_args() -> argparse.Namespace:
         help="Downloader to use for http(s)/ftp sources.",
     )
     parser.add_argument("--retries", type=int, default=3, help="Download retry count.")
+    parser.add_argument(
+        "--retry-delay-seconds",
+        type=int,
+        default=0,
+        help="Seconds to wait between download attempts.",
+    )
     return parser.parse_args()
 
 
@@ -60,30 +67,54 @@ def copy_local(source: str, destination: Path) -> None:
     shutil.copy2(source_path, destination)
 
 
-def download_remote(source: str, destination: Path, downloader: str, retries: int) -> None:
+def download_remote(
+    source: str,
+    destination: Path,
+    downloader: str,
+    retries: int,
+    retry_delay_seconds: int,
+) -> None:
     source = normalise_ena_url(source)
-    if downloader == "curl":
-        command = [
-            "curl",
-            "--fail",
-            "--location",
-            "--retry",
-            str(retries),
-            "--output",
-            str(destination),
-            source,
-        ]
-    else:
-        command = [
-            "wget",
-            "--tries",
-            str(retries),
-            "--continue",
-            "--output-document",
-            str(destination),
-            source,
-        ]
-    subprocess.run(command, check=True)
+    attempts = max(1, retries)
+    for attempt in range(1, attempts + 1):
+        if attempt > 1:
+            destination.unlink(missing_ok=True)
+            if retry_delay_seconds > 0:
+                print(
+                    f"INFO: retrying {source} in {retry_delay_seconds} seconds "
+                    f"(attempt {attempt}/{attempts})",
+                    file=sys.stderr,
+                )
+                time.sleep(retry_delay_seconds)
+
+        if downloader == "curl":
+            command = [
+                "curl",
+                "--fail",
+                "--location",
+                "--retry",
+                "0",
+                "--output",
+                str(destination),
+                source,
+            ]
+        else:
+            command = [
+                "wget",
+                "--tries",
+                "1",
+                "--continue",
+                "--output-document",
+                str(destination),
+                source,
+            ]
+
+        try:
+            subprocess.run(command, check=True)
+            return
+        except subprocess.CalledProcessError:
+            if attempt == attempts:
+                raise
 
 
 def main() -> int:
@@ -98,7 +129,13 @@ def main() -> int:
 
     try:
         if is_remote(normalise_ena_url(args.source)):
-            download_remote(args.source, tmp_path, args.downloader, args.retries)
+            download_remote(
+                args.source,
+                tmp_path,
+                args.downloader,
+                args.retries,
+                args.retry_delay_seconds,
+            )
         else:
             copy_local(args.source, tmp_path)
 

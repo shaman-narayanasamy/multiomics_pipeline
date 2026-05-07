@@ -19,6 +19,9 @@ KEEP_STAGED_READS = config_bool(DATA_SOURCE.get("keep_staged", False))
 STAGE_DIR = DATA_SOURCE.get("stage_dir", os.path.join(output_dir, "staged_reads"))
 MT_CONFIG = config.get("metatranscriptomics", {})
 MT_STAGE_RETRIES = int(MT_CONFIG.get("stage_retries", DATA_SOURCE_RETRIES))
+MT_STAGE_RETRY_DELAY_MINUTES = int(MT_CONFIG.get("stage_retry_delay_minutes", 60))
+MT_STAGE_RETRY_DELAY_SECONDS = MT_STAGE_RETRY_DELAY_MINUTES * 60
+MT_STAGE_RUNTIME_MINUTES = MT_STAGE_RETRY_DELAY_MINUTES * max(MT_STAGE_RETRIES - 1, 0) + 420
 
 MG_R1_STAGE_PATTERN = os.path.join(STAGE_DIR, "metagenomics", "{sample}", "{sample}_R1.fastq.gz")
 MG_R2_STAGE_PATTERN = os.path.join(STAGE_DIR, "metagenomics", "{sample}", "{sample}_R2.fastq.gz")
