@@ -44,6 +44,7 @@ rule stage_mt_read_1:
         md5=lambda wildcards: optional_sample_value(wildcards.sample, "MT_R1_md5"),
         downloader=DATA_SOURCE_DOWNLOADER,
         retries=DATA_SOURCE_RETRIES
+    retries: MT_STAGE_RETRIES
     shell:
         """
         python {REPO_ROOT}/scripts/ena/stage_read.py \
@@ -63,6 +64,7 @@ rule stage_mt_read_2:
         md5=lambda wildcards: optional_sample_value(wildcards.sample, "MT_R2_md5"),
         downloader=DATA_SOURCE_DOWNLOADER,
         retries=DATA_SOURCE_RETRIES
+    retries: MT_STAGE_RETRIES
     shell:
         """
         python {REPO_ROOT}/scripts/ena/stage_read.py \
