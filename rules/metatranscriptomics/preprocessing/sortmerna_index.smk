@@ -52,8 +52,7 @@ if SORTMERNA_FILTER_HUMAN:
 ## This rule is only in place just in case the databases were not indexed
 rule sortmerna_index_database:
     input:
-        db_path=SORTMERNA_DB_PATH,
-        human_refs=SORTMERNA_HUMAN_FILTERED_REFS if SORTMERNA_FILTER_HUMAN else []
+        refs=SORTMERNA_INDEX_REFS
     output:
         index_path=directory(os.path.join(SORTMERNA_DB_PATH, "idx")),
         donefile=os.path.join(SORTMERNA_DB_PATH, "indices.done")
@@ -64,7 +63,6 @@ rule sortmerna_index_database:
         cpus_per_task=12,
         runtime=4320
     conda: "../../../envs/sortmerna_env.yml"
-    benchmark: "benchmarks/sortmerna_index_database.txt"
     log: "logs/sortmerna_index_database.txt"
     shell: 
         """
