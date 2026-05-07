@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-SMK_FILE="workflows/coassembly.smk"
-SMK_CONFIG="config/PRJEB13233_config.yml"
+SMK_FILE="workflows/metatranscriptomics/preprocessing.smk"
+SMK_CONFIG="config/PRJEB13233_config_tmp.yml"
 SMK_JOBS=200
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

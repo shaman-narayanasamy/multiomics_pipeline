@@ -1,0 +1,177 @@
+executor: slurm
+use-conda: true
+conda-frontend: mamba
+keep-going: true
+printshellcmds: true
+rerun-incomplete: true
+show-failed-logs: true
+latency-wait: 60
+slurm-logdir: slurm
+slurm-keep-successful-logs: true
+slurm-no-account: true
+default-resources:
+  slurm_partition: "batch"
+  nodes: 1
+  tasks: 1
+  cpus_per_task: 1
+  mem: "16GB"
+  runtime: 60
+  slurm_extra: "--qos=normal --mail-user=shaman.narayanasamy@kaust.edu.sa"
+set-resources:
+  trimmomatic_trimming:
+    cpus_per_task: 12
+    mem: "100GB"
+    runtime: 4320
+  fastp_trimming:
+    cpus_per_task: 12
+    mem: "100GB"
+    runtime: 4320
+  index_all_transcripts:
+    cpus_per_task: 14
+    mem: "100GB"
+    runtime: 2880
+  sortmerna_index_database:
+    cpus_per_task: 14
+    mem: "200GB"
+    runtime: 2880
+  sortmerna_rrna_paired:
+    cpus_per_task: 24
+    mem: "500GB"
+    runtime: 7200
+  sortmerna_rrna_single:
+    cpus_per_task: 12
+    mem: "150GB"
+    runtime: 2880
+  sortmerna_human_paired:
+    cpus_per_task: 32
+    mem: "500GB"
+    runtime: 7200
+  sortmerna_human_single:
+    cpus_per_task: 12
+    mem: "150GB"
+    runtime: 2880
+  megahit:
+    cpus_per_task: 24
+    mem: "250GB"
+    runtime: 7200
+  bwa_index_assembly:
+    cpus_per_task: 6
+    mem: "120GB"
+    runtime: 2880
+  bwa_mapping_on_assembly:
+    cpus_per_task: 24
+    mem: "250GB"
+    runtime: 4320
+  index_assembly_bam:
+    cpus_per_task: 6
+    mem: "100GB"
+    runtime: 2880
+  flagstat_assembly_bam:
+    cpus_per_task: 12
+    mem: "100GB"
+    runtime: 2880
+  virsorter2:
+    cpus_per_task: 24
+    mem: "200GB"
+    runtime: 7200
+  genomad:
+    cpus_per_task: 24
+    mem: "200GB"
+    runtime: 7200
+  crisprcasfinder:
+    cpus_per_task: 24
+    mem: "120GB"
+    runtime: 20160
+  catbat_classification:
+    cpus_per_task: 40
+    mem: "200GB"
+    runtime: 7200
+  catbat_summary:
+    cpus_per_task: 6
+    runtime: 360
+  penguin_assembly:
+    cpus_per_task: 24
+    mem: "1000GB"
+    runtime: 7200
+  salmon_index_catalogue:
+    cpus_per_task: 24
+    mem: "128GB"
+    runtime: 2880
+  salmon_quant:
+    cpus_per_task: 14
+    mem: "128GB"
+    runtime: 360
+  deepmicroclass_predict:
+    cpus_per_task: 2
+    gres: "gpu:v100:1"
+    mem: "128GB"
+    runtime: 4320
+  deepmicroclass_extract:
+    cpus_per_task: 2
+    gres: "gpu:v100:1"
+    mem: "64GB"
+    runtime: 360
+  concoct:
+    cpus_per_task: 40
+    mem: "200GB"
+    runtime: 4320
+  metabat2:
+    cpus_per_task: 24
+    mem: "100GB"
+    runtime: 4320
+  maxbin2:
+    cpus_per_task: 24
+    mem: "100GB"
+    runtime: 4320
+  vamb:
+    cpus_per_task: 24
+    mem: "100GB"
+    runtime: 4320
+  semibin:
+    cpus_per_task: 24
+    mem: "250GB"
+    runtime: 4320
+  drep_dereplication:
+    cpus_per_task: 36
+    mem: "500GB"
+    runtime: 11520
+  bakta_annotation:
+    cpus_per_task: 12
+    mem: "120GB"
+    runtime: 2880
+  coverm_genomes:
+    cpus_per_task: 24
+    mem: "240GB"
+    runtime: 7200
+  semibin_multi_sample_get_abundance:
+    cpus_per_task: 24
+    mem: "500GB"
+    runtime: 7200
+  semibin_multi_sample_split_contigs:
+    cpus_per_task: 12
+    mem: "100GB"
+    runtime: 4320
+  semibin_multi_sample:
+    cpus_per_task: 36
+    mem: "500GB"
+    runtime: 11520
+  crass:
+    cpus_per_task: 40
+    mem: "120GB"
+    runtime: 2880
+  mmseqs2_cluster:
+    cpus_per_task: 24
+    mem: "120GB"
+    runtime: 7200
+  bwa_mapping_catalogue:
+    cpus_per_task: 24
+    mem: "250GB"
+    runtime: 4320
+  coverm_contigs:
+    cpus_per_task: 24
+    mem: "500GB"
+    runtime: 10080
+  bedtools_gene_coverage:
+    cpus_per_task: 24
+    mem: "250GB"
+    runtime: 7200

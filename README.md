@@ -81,29 +81,31 @@ MG_R2
 MT_R1   
 MT_R2
 
-There are two launchers in the `launchers` directory:
+The launchers in the `launchers` directory use the Snakemake 9 SLURM executor
+profile at `profiles/slurm-ibex/profile.yaml`. The Conda environment used to
+submit workflows must include both Snakemake and the SLURM executor plugin:
+
 ```{sh}
-sbatch_mt_preprocessing_smk7.32_scratch.sh
-sbatch_mt_preprocessing_smk7.32_wekaio.sh
+conda install -n snakemake_env -c conda-forge -c bioconda snakemake snakemake-executor-plugin-slurm
 ```
-The reason there are two launchers is to help the ibex HPC team test the
-performance of their WekaIO file system, which apparently is good for
-reading/writing operations. I will revert back to a regular (single) launcher
-once the system has been tested and the results relayed to the HPC team. To
-that end, the the only difference between the launchers is that one of them
-uses the `scratch`, BeeGFS filesystem as the temporary writing folder, while
-the latter uses the WekaIO system as the temporary directory. The path of these
-temporary folders have been encoded in the config file.
+
+There are two metatranscriptomics preprocessing variants:
+```{sh}
+sbatch_mt_preprocessing_scratch.sh
+sbatch_mt_preprocessing_tmp.sh
+```
+The only difference is the config file used by the launcher. The paths for
+temporary folders are encoded in the selected config file.
 
 Dry run:
 ```{sh}
-launchers/sbatch_mt_preprocessing_smk7.32_scratch.sh
+launchers/sbatch_mt_preprocessing_scratch.sh --dry-run
 ```
 NOTE: There are also other flags `--touch`
 
 Launch and push to the background.
 ```{sh}
-nohup launchers/sbatch_mt_preprocessing_smk7.32_scratch.sh > nohup_logs/mt_preprocessing_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
+nohup launchers/sbatch_mt_preprocessing_scratch.sh > nohup_logs/mt_preprocessing_launch_$(date +'%Y%m%d_%H%M%S').log 2>&1 &
 ```
 
 ```{sh}
