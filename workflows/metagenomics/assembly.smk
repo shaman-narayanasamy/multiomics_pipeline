@@ -1,3 +1,4 @@
+import os
 import subprocess
 import pandas as pd
 
@@ -13,6 +14,7 @@ output_dir = os.path.join(config['output_dir'],  "metagenomics", "assembly")
 # Read the sample table
 #samples = pd.read_table(config["data_table"]["all"], sep="\t", comment="#", dtype={"sample_alias": str})
 samples = pd.read_table(config["data_table"], sep="\t", comment="#", dtype={"sample_alias": str})
+samples = samples.dropna(subset=["MG_R1", "MG_R2"])
 samples.set_index("sample_alias", drop=False, inplace=True)
 
 workdir:

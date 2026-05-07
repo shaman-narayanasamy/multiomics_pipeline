@@ -69,6 +69,10 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def split_metadata_values(value: str) -> list[str]:
+    return [item.strip() for item in value.split(";") if item.strip()]
+
+
 def read_optional_metadata(path: str | None) -> dict[str, dict[str, str]]:
     if not path:
         return {}
@@ -80,9 +84,20 @@ def read_optional_metadata(path: str | None) -> dict[str, dict[str, str]]:
     with metadata_path.open(newline="") as handle:
         reader = csv.DictReader(handle, delimiter="\t")
         for row in reader:
-            for key in ("sample_alias", "sample_id", "sample_accession", "run_accession"):
-                value = row.get(key, "")
-                if value:
+            for key in (
+                "sample_alias",
+                "sample_id",
+                "sample_title",
+                "sample_accession",
+                "secondary_sample_accession",
+                "ena_sample_accession",
+                "ena_secondary_sample_accession",
+                "run_accession",
+                "amplicon_run_accession",
+                "metagenome_run_accession",
+                "metatranscriptome_run_accessions",
+            ):
+                for value in split_metadata_values(row.get(key, "")):
                     metadata[value] = row
     return metadata
 
@@ -110,7 +125,7 @@ def split_pair(value: str) -> tuple[str, str]:
 
 
 def metadata_for(row: dict[str, str], metadata: dict[str, dict[str, str]]) -> dict[str, str]:
-    for key in ("run_accession", "sample_accession", "sample_alias"):
+    for key in ("run_accession", "sample_accession", "secondary_sample_accession", "sample_alias"):
         value = row.get(key, "")
         if value in metadata:
             return metadata[value]
@@ -178,7 +193,8 @@ def main() -> int:
             md5_1, md5_2 = split_pair(row.get("fastq_md5", ""))
             extra = metadata_for(row, metadata)
             biological_sample_alias = (
-                extra.get("sample_alias")
+                extra.get("sample_title")
+                or extra.get("sample_alias")
                 or extra.get("sample_id")
                 or row.get("sample_alias")
                 or row.get("run_accession")

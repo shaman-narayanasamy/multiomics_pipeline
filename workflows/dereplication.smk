@@ -1,3 +1,4 @@
+import os
 import subprocess
 import pandas as pd
 
@@ -44,4 +45,3 @@ rule master:
         expand("dereplicated_bins" )
     output:
         touch('dereplication.done')
-

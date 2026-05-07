@@ -2,7 +2,7 @@ rule get_mt_assembly:
     output:
         mt_contigs = "{sample}/{sample}.mt_contigs.fa"
     params:
-        mt_contigs = os.path.join(mt_contigs_dir, "{sample}/megahit_assembly/final.contigs.fa")
+        mt_contigs = lambda wildcards: coassembly_mt_contigs(wildcards.sample)
     shell:
         """
         ln -s $(realpath {params.mt_contigs}) $(realpath {output})
@@ -10,12 +10,12 @@ rule get_mt_assembly:
 
 rule megahit:
     input:
-        filtered_mg_paired_read_1 = os.path.join(mg_reads_dir, "{sample}/{sample}_R1.processed.fastq.gz"),
-        filtered_mg_paired_read_2 = os.path.join(mg_reads_dir, "{sample}/{sample}_R2.processed.fastq.gz"),
-        filtered_mg_unpaired_read = os.path.join(mg_reads_dir, "{sample}/{sample}_SE.processed.fastq.gz"),
-        filtered_mt_paired_read_1 = os.path.join(mt_reads_dir, "{sample}/{sample}_R1.processed.filtered.fastq.gz"),
-        filtered_mt_paired_read_2 = os.path.join(mt_reads_dir, "{sample}/{sample}_R2.processed.filtered.fastq.gz"),
-        filtered_mt_unpaired_read = os.path.join(mt_reads_dir, "{sample}/{sample}_SE.processed.filtered.fastq.gz"),
+        filtered_mg_paired_read_1 = lambda wildcards: coassembly_mg_read(wildcards.sample, "R1"),
+        filtered_mg_paired_read_2 = lambda wildcards: coassembly_mg_read(wildcards.sample, "R2"),
+        filtered_mg_unpaired_read = lambda wildcards: coassembly_mg_read(wildcards.sample, "SE"),
+        filtered_mt_paired_read_1 = lambda wildcards: coassembly_mt_read(wildcards.sample, "R1"),
+        filtered_mt_paired_read_2 = lambda wildcards: coassembly_mt_read(wildcards.sample, "R2"),
+        filtered_mt_unpaired_read = lambda wildcards: coassembly_mt_read(wildcards.sample, "SE"),
         mt_contigs = "{sample}/{sample}.mt_contigs.fa"
     output:
         assembly_fasta="{sample}/megahit_assembly/final.contigs.fa",
@@ -50,4 +50,3 @@ rule rename_contigs:
 	awk -v id="${{sample_id}}" '/^>/ {{print ">" id "_contig_" substr($1, 2); next}} 1' \
         {input.coassembly_fasta} > {output.coassembly_fasta}
         """
-

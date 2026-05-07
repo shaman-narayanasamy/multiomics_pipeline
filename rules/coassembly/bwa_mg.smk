@@ -1,8 +1,8 @@
 rule bwa_mg_mapping_on_assembly:
     input:
-        r_1 = os.path.join(mg_reads_dir, "{sample}/{sample}_R1.processed.fastq.gz"),
-        r_2 = os.path.join(mg_reads_dir, "{sample}/{sample}_R2.processed.fastq.gz"),
-        r_se = os.path.join(mg_reads_dir, "{sample}/{sample}_SE.processed.fastq.gz"),
+        r_1 = lambda wildcards: coassembly_mg_read(wildcards.sample, "R1"),
+        r_2 = lambda wildcards: coassembly_mg_read(wildcards.sample, "R2"),
+        r_se = lambda wildcards: coassembly_mg_read(wildcards.sample, "SE"),
         assembly="{sample}/{sample}.coassembly_contigs.fa",
         assembly_amb="{sample}/{sample}.coassembly_contigs.fa.amb",
         assembly_bwt="{sample}/{sample}.coassembly_contigs.fa.bwt",
