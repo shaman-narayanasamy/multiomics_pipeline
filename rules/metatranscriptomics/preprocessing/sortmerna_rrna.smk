@@ -1,3 +1,26 @@
+SORTMERNA_CONFIG = config["sortmerna"]
+SORTMERNA_DB_PATH = SORTMERNA_CONFIG["db_path"]
+
+SORTMERNA_DEFAULT_RRNA_REFS = [
+    "rfam-5.8s-database-id98.fasta",
+    "silva-arc-16s-id95.fasta",
+    "silva-bac-16s-id90.fasta",
+    "silva-euk-18s-id95.fasta",
+    "rfam-5s-database-id98.fasta",
+    "silva-arc-23s-id98.fasta",
+    "silva-bac-23s-id98.fasta",
+    "silva-euk-28s-id98.fasta",
+]
+
+SORTMERNA_RRNA_REFS = [
+    ref if os.path.isabs(ref) else os.path.join(SORTMERNA_DB_PATH, ref)
+    for ref in SORTMERNA_CONFIG.get("rrna_refs", SORTMERNA_DEFAULT_RRNA_REFS)
+]
+
+SORTMERNA_REF_ARGS = " ".join(
+    f"--ref {ref}" for ref in SORTMERNA_RRNA_REFS
+)
+
 rule sortmerna_rrna_paired:
     input:
         paired_read_1 = "{sample}/{sample}_R1.processed.fastq.gz",
@@ -10,7 +33,8 @@ rule sortmerna_rrna_paired:
         filtered_unpaired_read_2 = temp("{sample}/{sample}_unpaired_R2.processed.rrna_removed.fastq.gz")
     params:
         db_path=config['sortmerna']['db_path'],
-        out_prefix_paired = "{sample}/{sample}_tmp_paired.non_rrna", # output prefix for paired reads
+        ref_args=SORTMERNA_REF_ARGS,
+        out_prefix_paired = "{sample}/{sample}_tmp_paired.non_rrna",
         tmp_dir = config["tmp_dir"]
     resources:
         cpus_per_task=24,
@@ -29,18 +53,10 @@ rule sortmerna_rrna_paired:
         gunzip -c {input.paired_read_1} > {params.tmp_dir}/{wildcards.sample}/paired/paired_R1.fastq
         gunzip -c {input.paired_read_2} > {params.tmp_dir}/{wildcards.sample}/paired/paired_R2.fastq
 
-
         # Run SortMeRNA for paired-end reads
         sortmerna \
                   --workdir {params.tmp_dir}/{wildcards.sample}/paired \
-                  --ref {params.db_path}/rfam-5.8s-database-id98.fasta \
-                  --ref {params.db_path}/silva-arc-16s-id95.fasta \
-                  --ref {params.db_path}/silva-bac-16s-id90.fasta \
-                  --ref {params.db_path}/silva-euk-18s-id95.fasta \
-                  --ref {params.db_path}/rfam-5s-database-id98.fasta \
-                  --ref {params.db_path}/silva-arc-23s-id98.fasta \
-                  --ref {params.db_path}/silva-bac-23s-id98.fasta \
-                  --ref {params.db_path}/silva-euk-28s-id98.fasta \
+                  {params.ref_args} \
                   --idx-dir {params.db_path}/idx \
                   --reads {params.tmp_dir}/{wildcards.sample}/paired/paired_R1.fastq \
                   --reads {params.tmp_dir}/{wildcards.sample}/paired/paired_R2.fastq \
@@ -72,7 +88,8 @@ rule sortmerna_rrna_single:
         filtered_unpaired_read = "{sample}/{sample}_SE.processed.rrna_removed.fastq.gz",
     params:
         db_path=config['sortmerna']['db_path'],
-        out_prefix_unpaired = "{sample}/{sample}_SE.non_rrna",  # output prefix for unpaired reads
+        ref_args=SORTMERNA_REF_ARGS,
+        out_prefix_unpaired = "{sample}/{sample}_SE.non_rrna",
         tmp_dir = config["tmp_dir"]
     resources:
         cpus_per_task=12,
@@ -94,14 +111,7 @@ rule sortmerna_rrna_single:
             # Run SortMeRNA for unpaired reads
             sortmerna \
                       --workdir {params.tmp_dir}/{wildcards.sample}/single/sortmerna_workdir \
-                      --ref {params.db_path}/rfam-5.8s-database-id98.fasta \
-                      --ref {params.db_path}/silva-arc-16s-id95.fasta \
-                      --ref {params.db_path}/silva-bac-16s-id90.fasta \
-                      --ref {params.db_path}/silva-euk-18s-id95.fasta \
-                      --ref {params.db_path}/rfam-5s-database-id98.fasta \
-                      --ref {params.db_path}/silva-arc-23s-id98.fasta \
-                      --ref {params.db_path}/silva-bac-23s-id98.fasta \
-                      --ref {params.db_path}/silva-euk-28s-id98.fasta \
+                      {params.ref_args} \
                       --idx-dir {params.db_path}/idx \
                       --reads {params.tmp_dir}/{wildcards.sample}/single/unpaired.fastq \
                       --threads {resources.cpus_per_task} \
@@ -122,7 +132,7 @@ rule sortmerna_rrna_single:
         # Cleanup temporary files
         rm -rf {params.tmp_dir}/{wildcards.sample}/single
         """
-        
+
 rule rename_filtered_reads:
     input:
         filtered_paired_read_1 = "{sample}/{sample}_R1.processed.rrna_removed.fastq.gz",
