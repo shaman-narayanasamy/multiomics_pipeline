@@ -58,7 +58,7 @@ rule concoct:
 rule concoct_merge_clusters:
     input:
         clustering_result = "{sample}/concoct/results_clustering_gt%s.csv" % config["binning"]["min_contig_length"],
-	fasta = "{sample}/all_prokaryotic_seqs.fa"
+        fasta = "{sample}/all_prokaryotic_seqs.fa"
     output:
         merged_table = "{sample}/concoct/bins/clustering_merged.csv",
         bin_dir = directory("{sample}/concoct/bins")

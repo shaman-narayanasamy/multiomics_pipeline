@@ -2,7 +2,7 @@ rule prepare_custom_bakta_db:
     output:
         custom_db = temp("bakta/custom_proteins.fasta")
     params:
-        custom_dbs = " ".join(config['bakta']['custom_dbs'].values()) if config['bakta']['custom_dbs'] else None
+        custom_dbs = " ".join(config['bakta']['custom_dbs'].values()) if config['bakta']['custom_dbs'] else ""
     shell:
         """
         if [ ! -z "{params.custom_dbs}" ]; then
@@ -13,6 +13,8 @@ rule prepare_custom_bakta_db:
         """
 
 rule bakta_annotation:
+    wildcard_constraints:
+        bin_id = "(?!custom_proteins\\.fasta$)[^/]+"
     input:
         bin_fasta = lambda wildcards: genome_index[wildcards.bin_id],
     output:

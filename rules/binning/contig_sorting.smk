@@ -99,7 +99,7 @@ rule bwa_mg_mapping_on_assembly:
         r_1=lambda wildcards: samples.at[(wildcards.sample), "R1"],
         r_2=lambda wildcards: samples.at[(wildcards.sample), "R2"],
         r_se=lambda wildcards: samples.at[(wildcards.sample), "SE"],
-	assembly="{sample}/all_prokaryotic_seqs.fa",
+        assembly="{sample}/all_prokaryotic_seqs.fa",
         assembly_amb="{sample}/all_prokaryotic_seqs.fa.amb",
         assembly_bwt="{sample}/all_prokaryotic_seqs.fa.bwt",
         assembly_pac="{sample}/all_prokaryotic_seqs.fa.pac",
