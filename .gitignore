@@ -1,0 +1,4 @@
+.snakemake/
+metadata/
+__pycache__/
+*.pyc
