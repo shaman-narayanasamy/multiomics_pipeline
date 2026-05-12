@@ -1,6 +1,5 @@
 executor: slurm
 use-conda: true
-conda-frontend: mamba
 keep-going: true
 printshellcmds: true
 rerun-incomplete: true
