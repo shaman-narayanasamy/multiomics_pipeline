@@ -62,9 +62,9 @@ rule semibin_multi_sample:
         fasta = 'semibin_multi_sample/concatenated.fa',
         abundance_files = expand("semibin_multi_sample/abundance/sample_{sample}.txt", sample = samples.index)
     output:
-        done = 'semibin_multi_sample/binning.done',
-        outdir = directory('semibin_multi_sample/output')
+        done = 'semibin_multi_sample/binning.done'
     params:
+        outdir = 'semibin_multi_sample/output',
         tmpdir = config["tmp_dir"],
         threads = config["semibin_multi_sample"]["threads"],
         min_contig_length = config["binning"]["min_contig_length"],
@@ -74,7 +74,7 @@ rule semibin_multi_sample:
     log: "semibin_multi_sample/logs/semibin2.txt"
     shell:
        """
-       mkdir -p {output.outdir}
+       mkdir -p {params.outdir}
        
        SemiBin2 multi_easy_bin \
        --tmpdir {params.tmpdir} \
@@ -82,7 +82,7 @@ rule semibin_multi_sample:
        -m {params.min_contig_length} \
        -i {input.fasta} \
        -a {params.abundance_dir}/*.txt \
-       -o {output.outdir} \
+       -o {params.outdir} \
        -t {params.threads}
 
        touch {output.done}
@@ -91,25 +91,18 @@ rule semibin_multi_sample:
 rule semibin_multi_sample_contig_to_bin:
     input:
         fasta = "{sample}/all_prokaryotic_seqs.fa",
-        bin_dir = 'semibin_multi_sample/output'
+        done = 'semibin_multi_sample/binning.done'
     output:
         contig_to_bin="semibin_multi_sample/contigs_to_bins/{sample}_contig_to_bin.tsv"
+    params:
+        bin_dir = 'semibin_multi_sample/output'
     shell:
         """
         mkdir -p semibin_multi_sample/contigs_to_bins
 
-        for file in {input.bin_dir}/bins/*; do
-          if [[ $file == *.fa.gz ]]; then
-            echo "Decompressing $file"
-            gunzip "$file"
-          else
-            echo "Skipping $file, already decompressed"
-          fi
-        done
-
-        paste <(grep "^>" {input.bin_dir}/bins/{wildcards.sample}_SemiBin_*.fa | \
-        sed -e 's:{input.bin_dir}/bins/::g' -e 's/\.fa:>/\t/g') \
+        paste <(grep "^>" {params.bin_dir}/bins/{wildcards.sample}_SemiBin_*.fa | \
+        sed -e 's:{params.bin_dir}/bins/::g' -e 's/\.fa:>/\t/g') \
         <(yes "semibin_multi_sample" | \
-        head -n $(cat {input.bin_dir}/bins/{wildcards.sample}_SemiBin_*.fa | grep -c "^>")) > \
+        head -n $(cat {params.bin_dir}/bins/{wildcards.sample}_SemiBin_*.fa | grep -c "^>")) > \
         {output.contig_to_bin}
         """

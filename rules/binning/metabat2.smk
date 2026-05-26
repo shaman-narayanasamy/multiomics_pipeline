@@ -21,9 +21,9 @@ rule metabat2:
         bai = "{sample}/{sample}_metaG.reads.sorted.bam.bai",
         depth_file = "{sample}/contig_depth.txt"
     output:
-        bin_dir = directory('{sample}/metabat2'),
         done = '{sample}/metabat2.done'
     params:
+        bin_dir = '{sample}/metabat2',
         threads = config["metabat2"]["threads"],
         min_contig_length = config["binning"]["min_contig_length"],
         prefix = '{sample}/metabat2/metabat_bin',
@@ -34,7 +34,7 @@ rule metabat2:
     log: "{sample}/logs/metabat2.txt"
     shell:
         """
-        mkdir -p {output.bin_dir}
+        mkdir -p {params.bin_dir}
 
         awk 'NR==FNR {{order[$1]=NR; next}} $1 in order {{print order[$1], $0}}' \
         <(grep '>' {input.fasta} | sed 's/>//') {input.depth_file} | \
@@ -51,16 +51,18 @@ rule metabat2:
 
 rule metabat2_contig_to_bin:
     input:
-        bin_dir = "{sample}/metabat2"
+        done = "{sample}/metabat2.done"
     output:
         contig_to_bin="{sample}/metabat2/contig_to_bin.tsv"
+    params:
+        bin_dir = "{sample}/metabat2"
     shadow: "shallow"
     shell:
         """
-        ls {input.bin_dir}/*.fa | \
+        ls {params.bin_dir}/*.fa | \
         xargs -I{{}} bash -c 'paste <(yes "{{}}" | \
         head -n $(grep -c "^>" {{}}) | \
-        sed -e "s:{input.bin_dir}/::g") \
+        sed -e "s:{params.bin_dir}/::g") \
         <(grep "^>" {{}} | \
         sed -e "s/>//g") <(yes "metabat2" | \
         head -n $(grep -c "^>" {{}}))' | \

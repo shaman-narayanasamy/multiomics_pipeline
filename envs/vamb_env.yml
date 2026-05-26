@@ -4,11 +4,10 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - python=3.8
+  - python=3.10
   - pip
   - pip:
       - vamb
-prefix: /ibex/user/naras0c/conda-environments/vamb_env
 
 #channels:
 #  - conda-forge

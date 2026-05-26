@@ -5,9 +5,9 @@ rule semibin:
         bai = "{sample}/{sample}_metaG.reads.sorted.bam.bai",
         depth_file = "{sample}/contig_depth.txt"
     output:
-        done = '{sample}/semibin.done',
-        outdir = directory('{sample}/semibin')
+        done = '{sample}/semibin.done'
     params:
+        outdir = '{sample}/semibin',
         tmpdir = config["tmp_dir"],
         threads = config["semibin"]["threads"],
         min_contig_length = config["binning"]["min_contig_length"],
@@ -25,25 +25,27 @@ rule semibin:
         --input-fasta {input.fasta} \
         --input-bam {input.bam} \
         --environment {params.environment_type} \
-        --output {output.outdir}
+        --output {params.outdir}
 
         touch {output.done}
         """
 
 rule semibin_contig_to_bin:
     input:
-        bin_dir = "{sample}/semibin"
+        done = "{sample}/semibin.done"
     output:
         contig_to_bin="{sample}/semibin/contig_to_bin.tsv",
+    params:
+        bin_dir = "{sample}/semibin"
     shadow: "shallow"
     shell:
         """
-        gunzip -fk {input.bin_dir}/output_bins/*.fa.gz
+        gunzip -fk {params.bin_dir}/output_bins/*.fa.gz
 
-        ls {input.bin_dir}/output_bins/*.fa | \
+        ls {params.bin_dir}/output_bins/*.fa | \
         xargs -I{{}} bash -c 'paste <(yes "{{}}" | \
         head -n $(grep -c "^>" {{}}) | \
-        sed -e "s:{input.bin_dir}/output_bins/::g") \
+        sed -e "s:{params.bin_dir}/output_bins/::g") \
         <(grep "^>" {{}} | \
         sed -e "s/>//g") <(yes "semibin" | \
         head -n $(grep -c "^>" {{}}))' | \

@@ -3,7 +3,7 @@ rule deepmicroclass_predict:
         fasta=lambda wildcards: samples.at[(wildcards.sample), "fasta"]
     output:
         predictions = "{sample}/DeepMicroClass/contigs.fa_pred_one-hot_hybrid.tsv"
-    conda: "deepmicroclass_env"
+    conda: "../../envs/deepmicroclass_env.yml"
     #container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
     shadow: "shallow"
     benchmark: os.path.join("{sample}/benchmarks/deepmicroclass_predict.txt")
@@ -31,7 +31,7 @@ rule deepmicroclass_extract:
         eukaryotic_viruses = "{sample}/DeepMicroClass/eukaryotic_viruses.fa",
         plasmids = "{sample}/DeepMicroClass/plasmids.fa"
     #container: "/home/naras0c/repositories/github/DeepMicroClass/DeepMicroClass.sif"
-    conda: "deepmicroclass_env"
+    conda: "../../envs/deepmicroclass_env.yml"
     shadow: "shallow"
     benchmark: os.path.join("{sample}/benchmarks/deepmicroclass_extract.txt")
     log: os.path.join("{sample}/logs/deepmicroclass_extract.log")

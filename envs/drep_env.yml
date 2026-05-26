@@ -6,7 +6,7 @@ channels:
   - defaults
 dependencies:
   - drep
+  - pandas<3
   - prodigal
   - checkm-genome
   - centrifuge
-prefix: /home/users/snarayanasamy/miniconda3/envs/drep_env

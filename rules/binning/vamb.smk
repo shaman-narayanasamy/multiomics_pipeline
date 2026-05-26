@@ -4,24 +4,30 @@ rule vamb:
         bam = "{sample}/{sample}_metaG.reads.sorted.bam",
         bai = "{sample}/{sample}_metaG.reads.sorted.bam.bai"
     output:
-        outdir = directory('{sample}/vamb'),
         done = '{sample}/vamb.done'
     params:
+        outdir = '{sample}/vamb',
+        bamdir = '{sample}/vamb_bams',
         threads = config["vamb"]["threads"],
         min_contig_length = config["binning"]["min_contig_length"]
+    conda: "../../envs/vamb_env.yml"
     container: "/ibex/user/naras0c/VAMB/vamb.sif"
     benchmark: os.path.join("{sample}/benchmarks/vamb.txt")
     log: os.path.join("{sample}/logs/vamb.txt")
     shell:
         """
-        rm -rf {output.outdir}
+        rm -rf {params.outdir}
+        rm -rf {params.bamdir}
+        mkdir -p {params.bamdir}
+        ln -sf ../$(basename {input.bam}) {params.bamdir}/$(basename {input.bam})
+        ln -sf ../$(basename {input.bai}) {params.bamdir}/$(basename {input.bai})
 
-        vamb --outdir {output.outdir} \
+        vamb bin default \
+        --outdir {params.outdir} \
         -p {params.threads} \
-        --minfasta 10 \
+        --minfasta 200000 \
         --fasta {input.fasta} \
-        --bamfiles {input.bam} \
-        -i 10 \
+        --bamdir {params.bamdir} \
         -m {params.min_contig_length}
 
         touch {output.done}
@@ -29,16 +35,18 @@ rule vamb:
 
 rule vamb_contig_to_bin:
     input:
-        bin_dir = "{sample}/vamb"
+        done = "{sample}/vamb.done"
     output:
         contig_to_bin="{sample}/vamb/contig_to_bin.tsv",
+    params:
+        bin_dir = "{sample}/vamb"
     shadow: "shallow"
     shell:
         """
-        ls {input.bin_dir}/bins/*.fna | \
+        ls {params.bin_dir}/bins/*.fna | \
         xargs -I{{}} bash -c 'paste <(yes "{{}}" | \
         head -n $(grep -c "^>" {{}}) | \
-        sed -e "s:{input.bin_dir}/bins/::g") \
+        sed -e "s:{params.bin_dir}/bins/::g") \
         <(grep "^>" {{}} | \
         sed -e "s/>//g") <(yes "vamb" | \
         head -n $(grep -c "^>" {{}}))' | \

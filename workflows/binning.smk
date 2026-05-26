@@ -78,7 +78,6 @@ rule all:
         expand("{sample}/semibin.done", sample = samples.index),
         expand("{sample}/vamb.done", sample = samples.index),
         expand("{sample}/magscot/MAGScoT.refined.contig_to_bin.out", sample = samples.index),
-        expand("{sample}/magscot", sample = samples.index),
         expand("{sample}/magscot_bins", sample = samples.index),
         expand("{sample}/DeepMicroClass/prokaryotes.fa", sample = samples.index),
         expand("{sample}/DeepMicroClass/eukaryotes.fa", sample = samples.index),
@@ -86,7 +85,6 @@ rule all:
         expand("{sample}/DeepMicroClass/eukaryotic_viruses.fa", sample = samples.index),
         expand("{sample}/DeepMicroClass/plasmids.fa", sample = samples.index),
         expand("{sample}/{sample}_metaG.reads.sorted.bam", sample = samples.index),
-        'semibin_multi_sample/output',
         'semibin_multi_sample/binning.done',
         expand("semibin_multi_sample/contigs_to_bins/{sample}_contig_to_bin.tsv", sample = samples.index),
         "dereplication"
