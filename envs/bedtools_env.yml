@@ -1,6 +1,6 @@
-name: catbat_env
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
+  - defaults
 dependencies:
-  - cat
+  - bedtools

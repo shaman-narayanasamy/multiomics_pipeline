@@ -12,7 +12,7 @@ rule bwa_index_assembly:
     resources:
         mem_mb = 100000
     threads: 6
-    conda: "bwa_env"
+    conda: "../../envs/bwa_env.yml"
     benchmark: "{catalogue}/indexes/benchmarks/bwa_indexing.txt"
     log: "{catalogue}/indexes/logs/bwa_indexing.txt"
     shell:
@@ -63,7 +63,7 @@ rule bwa_mapping_catalogue:
     resources:
         memory = 250
     threads: 24 
-    conda: "bwa_env"
+    conda: "../../envs/bwa_env.yml"
     benchmark: "{catalogue}/alignments/{omics}/benchmarks/{sample}.bwa_mapping.txt"
     log: "{catalogue}/alignments/{omics}/logs/{sample}.bwa_mapping.txt"
     shell:
@@ -94,7 +94,7 @@ rule index_assembly_bam:
         '{catalogue}/alignments/{omics}/{sample}.{omics}.reads.sorted.bam'
     output:
         '{catalogue}/alignments/{omics}/{sample}.{omics}.reads.sorted.bam.bai'
-    conda: "bwa_env"
+    conda: "../../envs/bwa_env.yml"
     benchmark: "{catalogue}/alignments/{omics}/benchmarks/{sample}.index_bam.txt"
     log: "{catalogue}/alignments/{omics}/logs/{sample}.index_bam.txt"
     shell:
@@ -107,7 +107,7 @@ rule flagstat_assembly_bam:
         '{catalogue}/alignments/{omics}/{sample}.{omics}.reads.sorted.bam'
     output:
         '{catalogue}/flagstats/{omics}/{sample}.{omics}.reads.sorted.flagstat.txt'
-    conda: "bwa_env"
+    conda: "../../envs/bwa_env.yml"
     benchmark: "{catalogue}/flagstats/{omics}/benchmarks/{sample}.flagstat.txt"
     log: "{catalogue}/flagstats/{omics}/logs/{sample}.flagstat.txt"
     shell:

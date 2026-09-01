@@ -48,8 +48,8 @@ include:
 
 rule all:
     input:
-        #expand("catbat/{db_name}/BAT.bin2classification.names_added.txt", db_name = ["nr", "gtdb"]),
-        #expand("catbat/{db_name}/catbat_summary.done", db_name = ["nr", "gtdb"]),
+        expand("catbat/{db_name}/BAT.bin2classification.names_added.txt", db_name = config["catbat"]["db_path"].keys()),
+        expand("catbat/{db_name}/catbat_summary.done", db_name = config["catbat"]["db_path"].keys()),
         expand("bakta/{bin_id}/bakta.done", bin_id = bin_ids),
         expand("bakta/{bin_id}", bin_id = bin_ids),
         "bakta/custom_proteins.fasta"

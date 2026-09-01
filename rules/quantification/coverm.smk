@@ -9,7 +9,7 @@ all_coverm_inputs = [
 #       bams = all_coverm_inputs,
 #       fasta = "{catalogue}/indexes/sequences.fa",
 #    output:
-#       out_dir = "{catalogue}/coverage/{omics}/coverm/output.tsv"
+#       output_tsv = "{catalogue}/coverage/{omics}/coverm/output.tsv/output.tsv"
 #    threads: 24
 #    conda: 
 #       "coverm_env"
@@ -33,18 +33,18 @@ rule coverm_contigs:
         ],
         fasta = "{catalogue}/indexes/sequences.fa",
     output:
-        out_dir = "{catalogue}/coverage/{omics}/coverm/output.tsv"
+        output_tsv = "{catalogue}/coverage/{omics}/coverm/output.tsv/output.tsv"
     threads: 24
-    conda: "coverm_env"
+    conda: "../../envs/coverm_env.yml"
     benchmark: "{catalogue}/coverage/{omics}/benchmarks/coverm.txt"
     log: "{catalogue}/coverage/{omics}/log/coverm.log"
     shell:
         """
-        mkdir -p {output.out_dir}
+        mkdir -p $(dirname {output.output_tsv})
 
         coverm contig -b {input.bams} \
         -m mean trimmed_mean count reads_per_base rpkm tpm covered_fraction covered_bases length \
-        -o {output.out_dir}/output.tsv -t {threads}
+        -o {output.output_tsv} -t {threads}
         """
 
 metrics = [
@@ -69,12 +69,18 @@ split_coverm_outputs = [
 
 rule split_coverm_by_metric:
     input:
-        coverm_output = lambda wildcards: f"{wildcards.catalogue}/coverage/{wildcards.omics}/coverm/output.tsv"
+        coverm_output = lambda wildcards: f"{wildcards.catalogue}/coverage/{wildcards.omics}/coverm/output.tsv/output.tsv"
     output:
         temp("{catalogue}/coverage/{omics}/coverm/output-{metric}.tsv")
     threads: 1
-    conda: "csvtk_env"
+    conda: "../../envs/csvtk_env.yml"
     shell:
         r"""
-        csvtk cut -t -f 1,$(head -n1 {input.coverm_output} | tr '\t' '\n' | grep -n "\.{wildcards.omics}\.reads\.sorted {wildcards.metric}$" | cut -d: -f1 | paste -sd, -) {input.coverm_output} > {output}
+        metric=$(printf '%s' "{wildcards.metric}" | tr '_' ' ')
+        cols=$(awk -v metric="$metric" 'BEGIN{{FS="\t"}} NR==1{{cols="1"; for(i=2;i<=NF;i++) if($i ~ (" " metric "$")) cols=cols "," i; print cols; exit}}' {input.coverm_output})
+        if [[ "$cols" == "1" ]]; then
+            echo "No CoverM columns matched metric '$metric' in {input.coverm_output}" >&2
+            exit 2
+        fi
+        csvtk cut -t -f "$cols" {input.coverm_output} > {output}
         """

@@ -1,6 +1,7 @@
 rule bedtools_gene_coverage:
     input:
         bed = lambda wildcards: config["catalogues"][wildcards.catalogue]["bed"],
+        genome = lambda wildcards: config["catalogues"][wildcards.catalogue]["fasta"] + ".genome",
         bam = '{catalogue}/alignments/{omics}/{sample}.{omics}.reads.sorted.bam',
     output:
         "{catalogue}/gene_coverage/{omics}/{sample}_{omics}.tsv"
@@ -12,7 +13,7 @@ rule bedtools_gene_coverage:
         """
         mkdir -p {wildcards.catalogue}/gene_coverage/{wildcards.omics}
 
-        bedtools coverage -a {input.bed} -b {input.bam} > {output}
+        bedtools coverage -sorted -g {input.genome} -a {input.bed} -b {input.bam} > {output}
         """
 
 #        | awk 'BEGIN {{
