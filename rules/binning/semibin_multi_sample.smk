@@ -1,4 +1,4 @@
-## Semibin needs to have each fasta file with a unique name regardless of its location
+# SemiBin requires unique FASTA filenames across input directories.
 rule soft_link_unique:
     input:
         fasta = "{sample}/all_prokaryotic_seqs.fa"

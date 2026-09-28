@@ -58,7 +58,7 @@ rule spacepharer:
         """ 
         mkdir -p {wildcards.sample}/spacepharer
 
-        # Need an if statement to ensure that the CRISPR files are not empty
+        # Run prediction when the CRISPR inputs contain sequences.
         if [ -s {input.spacers} ]; then
 
             mkdir -p {tmp_dir}/tmpFolder/{wildcards.sample}
