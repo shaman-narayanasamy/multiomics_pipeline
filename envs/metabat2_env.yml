@@ -1,0 +1,8 @@
+name: metabat2_env
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - metabat2=2.15
+
+prefix: /ibex/user/naras0c/conda-environments/metabat2_env

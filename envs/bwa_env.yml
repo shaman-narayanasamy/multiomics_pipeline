@@ -1,0 +1,8 @@
+name: bwa_env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - bwa=0.7.17=he4a0461_11
+  - samtools=1.9=h10a08f8_12
+prefix: /ibex/user/naras0c/conda-environments/bwa_env

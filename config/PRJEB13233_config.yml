@@ -1,0 +1,119 @@
+---
+tmp_dir: "/ibex/tmp/naras0c"
+output_dir: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233"
+#data_table: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/metadata/PRJEB13233_mg_mt_data.tsv"
+data_table: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/binning_input.tsv"
+genomes_dir: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/binning/dereplication/dereplicated_bins/dereplicated_genomes"
+input_dir:
+  download: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/input"
+  mt_assembly_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/metatranscriptomics/preprocessing"
+  mg_assembly_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/metagenomics/preprocessing"
+  mt_contig_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/metatranscriptomics/assembly"
+  coassembly_contig_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/coassembly"
+  dereplication_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/binning"
+  crispr_link_input: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/output/PRJEB13233/phage_identification"
+
+
+trimmomatic:
+    adapters_path: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/adapters/all_illumina_adapters.fa"
+
+sortmerna:
+    db_path: "/ibex/user/naras0c/sortmerna"
+    filter_length: 20
+    human_genome_fasta_path: "/ibex/reference/KSL/Homo_sapiens_assembly38/Homo_sapiens_assembly38.fasta"
+    human_mrna_fasta_path: "/ibex/user/naras0c/genomes/human/mrna.fa"
+
+salmon:
+    min_assigned_frags: 1
+
+virsorter2:
+    db: "/ibex/sw/rl9c/virsorter2/2.2.4/rl9_conda3/db"
+    threads: 24
+
+gtdbtk:
+    db: "/ibex/reference/KSL/gtdb-tk/release214"
+
+virhostmatcher:
+    script: "/home/naras0c/repositories/github/VirHostMatcher/vhm.py"
+
+genomad:
+    db: "/ibex/reference/KSL/genomad/v1.5/genomad_db"
+    threads: 24
+
+seqkit:
+  threads: 24
+
+crisprcasfinder:
+  executor_script_path: "/home/naras0c/repositories/github/ww_rna_phages/scripts/run_crisprcasfinder.sh"
+  threads: 24
+
+coverm:
+  threads: 24
+  genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes"
+
+
+catbat:
+    threads: 40
+    db_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/db"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/db"
+    tx_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/tax"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/tax"
+
+binning:
+  min_contig_length: 1500 ## Required by metabat2
+
+concoct:
+    threads: 40
+    read_length: 250
+    contig_split_length: 1000
+
+metabat2:
+    threads: 24
+
+maxbin2:
+    threads: 24
+
+vamb:
+    threads: 24
+
+semibin:
+    threads: 24
+    environment_type: "wastewater"
+
+semibin_multi_sample:
+    threads: 36
+
+magscot:
+    folder: "/home/naras0c/repositories/github/MAGScoT"        
+
+catbat:
+    threads: 40
+    db_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/db"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/db"
+    tx_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/tax"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/tax"
+    catpack_script: "/home/naras0c/repositories/github/CAT_pack/CAT_pack/CAT_pack"
+
+drep:
+    completeness: 75
+    contamination: 25
+    strain_heterogeneity_weight: 1
+    P_ani: 0.9
+    S_ani: 0.9
+
+bakta:
+    db_path: "/ibex/user/naras0c/databases/bakta/db"
+
+salmon:
+    min_assigned_frags: 1
+    catalogues: 
+       MAG_annotation_dir: 
+         path: "/ibex/project/e3015/FLW_STG_multiomics/output/metagenomics/annotation/bakta"
+         extension: "ffn"
+       MAG_path_dir: 
+         path: "/ibex/project/e3015/FLW_STG_multiomics/output/metagenomics/dereplication/dereplicated_bins/dereplicated_genomes/"
+         extension: "fasta"

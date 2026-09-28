@@ -1,0 +1,7 @@
+name: crass_env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - crass=1.0.1=h5ca1c30_6
+prefix: /ibex/user/naras0c/conda-environments/crass_env

@@ -1,0 +1,15 @@
+name: pullseq
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=2_gnu
+  - libgcc-ng=13.2.0=h807b86a_4
+  - libgomp=13.2.0=h807b86a_4
+  - libstdcxx-ng=13.2.0=h7e041cc_4
+  - libzlib=1.2.13=hd590300_5
+  - pcre=8.45=h9c3ff4c_0
+  - pullseq=1.0.2=h6ead514_9
+  - zlib=1.2.13=hd590300_5
+prefix: /ibex/user/naras0c/conda-environments/pullseq

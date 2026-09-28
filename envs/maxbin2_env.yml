@@ -1,0 +1,7 @@
+name: maxbin2_env
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - maxbin2=2.2.7
+prefix: /ibex/user/naras0c/conda-environments/maxbin2_env

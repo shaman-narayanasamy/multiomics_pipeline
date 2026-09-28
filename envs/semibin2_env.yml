@@ -1,0 +1,11 @@
+name: semibin_env
+channels:
+  - conda-forge
+  - bioconda
+  - pytorch
+  - nvidia
+dependencies:
+  - semibin 
+  - pytorch 
+  - pytorch-cuda
+prefix: /ibex/user/naras0c/conda-environments/semibin_env

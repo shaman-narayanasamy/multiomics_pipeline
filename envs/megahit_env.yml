@@ -1,0 +1,7 @@
+name: megahit_env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - megahit=1.2.9=h43eeafb_4
+prefix: /ibex/user/naras0c/conda-environments/megahit_env

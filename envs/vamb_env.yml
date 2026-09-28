@@ -1,0 +1,20 @@
+name: vamb_env
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - vamb
+
+#channels:
+#  - conda-forge
+#  - pytorch
+#  - bioconda
+#dependencies:
+#  - pytorch
+#  - torchvision
+#  - cudatoolkit=10.2
+#  - vamb

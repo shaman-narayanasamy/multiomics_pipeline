@@ -1,0 +1,148 @@
+---
+tmp_dir: "/ibex/tmp/naras0c"
+output_dir: "/ibex/project/e3018/airport_surveillance/output/"
+data_table: "/ibex/project/e3018/airport_surveillance/combined_output.tsv" ## This is for the CRISPR analysis
+#data_table: "/ibex/project/e3018/airport_surveillance/binning_input.tsv"
+#data_table: "/ibex/project/e3018/airport_surveillance/mg_only_sample_table.tsv"
+#data_table: ""
+genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes"
+input_dir:
+    mt_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/preprocessing"
+    mg_assembly_input: "/ibex/project/e3018/airport_surveillance/output/metagenomics/preprocessing"
+    mt_contig_input: "/ibex/project/e3018/airport_surveillance/output/metatranscriptomics/assembly"
+    coassembly_contig_input: "/ibex/project/e3018/airport_surveillance/output/coassembly"
+    dereplication_input: "/ibex/project/e3018/airport_surveillance/output/binning"
+    crispr_link_input: "/ibex/project/e3018/airport_surveillance/output/phage_identification"
+
+trimmomatic:
+    adapters_path: "/ibex/project/e3015/ww_rna_phage/ww_public_datasets/adapters/all_illumina_adapters.fa"
+
+sortmerna:
+    db_path: "/ibex/user/naras0c/sortmerna"
+    filter_length: 20
+    human_genome_fasta_path: "/ibex/reference/KSL/Homo_sapiens_assembly38/Homo_sapiens_assembly38.fasta"
+    human_mrna_fasta_path: "/ibex/user/naras0c/genomes/human/mrna.fa"
+
+salmon:
+    min_assigned_frags: 1
+
+virsorter2:
+    db: "/ibex/sw/rl9c/virsorter2/2.2.4/rl9_conda3/db"
+    threads: 24
+
+gtdbtk:
+    db: "/ibex/reference/KSL/gtdb-tk/release214"
+
+virhostmatcher:
+    script: "/home/naras0c/repositories/github/VirHostMatcher/vhm.py"
+
+genomad:
+    db: "/ibex/reference/KSL/genomad/v1.5/genomad_db"
+    threads: 24
+
+seqkit:
+  threads: 24
+
+crisprcasfinder:
+  executor_script_path: "/home/naras0c/repositories/github/ww_rna_phages/scripts/run_crisprcasfinder.sh"
+  threads: 24
+
+coverm:
+  threads: 24
+  genomes_dir: "/ibex/project/e3018/airport_surveillance/output/binning/dereplication/dereplicated_genomes/fixed_fasta"
+
+catbat:
+    threads: 40
+    db_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/db"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/db"
+    tx_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/tax"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/tax"
+
+binning:
+  min_contig_length: 1500 ## Required by metabat2
+
+concoct:
+    threads: 40
+    read_length: 250
+    contig_split_length: 1000
+
+metabat2:
+    threads: 24
+
+maxbin2:
+    threads: 24
+
+vamb:
+    threads: 24
+
+semibin:
+    threads: 24
+    environment_type: "wastewater"
+
+semibin_multi_sample:
+    threads: 36
+
+magscot:
+    folder: "/home/naras0c/repositories/github/MAGScoT"        
+
+drep:
+    completeness: 75
+    contamination: 25
+    strain_heterogeneity_weight: 1
+    P_ani: 0.9
+    S_ani: 0.95
+
+catbat:
+    threads: 40
+    db_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/db"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/db"
+    tx_path:
+      gtdb: "/ibex/reference/KSL/cat/20231120/20231120_CAT_gtdb/tax"
+      nr: "/ibex/reference/KSL/cat/20231120/20231120_CAT_nr/tax"
+    catpack_script: "/home/naras0c/repositories/github/CAT_pack/CAT_pack/CAT_pack"
+
+bakta:
+    db_path: "/ibex/user/naras0c/databases/bakta/db" 
+    custom_dbs:  ## Can only include protein databases
+        card_homologs: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_homolog_model-forBakta.fasta"
+        card_knockout: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_knockout_model-forBakta.fasta"
+        card_overespression: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_overexpression_model-forBakta.fasta"
+        card_variant_model: "/ibex/user/naras0c/databases/CARD/protein_fasta_protein_variant_model-forBakta.fasta"
+
+          #catalogue:
+          #  non_redundant_representative_contigs:
+          #        fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
+          #        bed: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/test_annotation_file.tsv"
+          #
+catalogues:
+  non_redundant_representative_contigs:
+              fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
+              bed: "/ibex/project/e3018/airport_surveillance/output/annotation/all_MAG_genes.bed"
+              #
+      #        non_redundant_representative_contigs:
+      #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/non_redundant_representative_contigs/all_rMAGs-vOTUs_minlen1000_nonredundant_contigs.fasta"
+      #        rMAG_genes:
+      #            fasta: "/ibex/project/e3018/airport_surveillance/output/catalogues/rMAG_genes/all_rMAG_genes.fasta"
+      #        human_viruses: 
+      #            fasta: "/ibex/project/e3018/airport_surveillance/human_virus_database/all_human_viruses_cleaned.fasta"
+
+              
+cluster_ani:
+    mmseqs2:
+        ## mmseqs2 is good for fast, preliminary run, but the best practice approach is recommended. 
+        ## Therefore, this is implemented to reflect the best practice approach.
+        min_ani: 0.95        # ANI threhold: Match 95% threhold of best practice
+        min_cov: 0.85       # Min coverage threshold: Match 85% of best practice  
+        cov_mode: 1          # Coverage mode (1: shorter sequence relative to long sequence)
+        alignment_mode: 3    # Alignment mode: Use full dynamic programming alignment (like BLAST)
+        cluster_mode: 2      # Clustering mode: Greedy centroid selection mode
+        max_seqs: 1000        # Max sequences per iteration/thread
+    best_practice:
+        min_ani: 95
+        min_tcov: 85
+        min_qcov: 0
+        min_length: 1
+

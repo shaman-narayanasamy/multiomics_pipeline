@@ -1,0 +1,8 @@
+name: strobealign_env
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - samtools=1.21
+  - strobealign=0.15.0
+prefix: /ibex/user/naras0c/conda-environments/strobealign_env

@@ -1,0 +1,7 @@
+name: mosdepth_env
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - mosdepth=0.3.3
+prefix: /ibex/user/naras0c/conda-environments/mosdepth_env

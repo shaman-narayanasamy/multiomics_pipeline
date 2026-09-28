@@ -1,0 +1,11 @@
+name: deepmicroclass_cpu_env
+channels:
+  - conda-forge
+  - pytorch
+  - bioconda
+dependencies:
+  - python=3.10
+  - requests
+  - pip
+  - pip:
+      - DeepMicroClass

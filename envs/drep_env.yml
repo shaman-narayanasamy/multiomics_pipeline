@@ -1,0 +1,12 @@
+name: drep_env
+channels:
+  - conda-forge
+  - bioconda
+  - ursky
+  - defaults
+dependencies:
+  - drep
+  - pandas<3
+  - prodigal
+  - checkm-genome
+  - centrifuge
