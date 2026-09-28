@@ -17,7 +17,7 @@ configurations describe earlier projects.
 The ENA resolver prepares a sample sheet from a study accession:
 
 ```sh
-python scripts/ena/resolve_ena_study.py PRJEB79569 samples.tsv \
+python scripts/ena/resolve_ena_study.py STUDY_ACCESSION samples.tsv \
   --metadata sample_metadata.tsv --require-library-strategy WGS
 ```
 
