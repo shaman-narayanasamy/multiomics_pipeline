@@ -44,9 +44,3 @@ bash launchers/sbatch_mt_preprocessing.sh --dry-run
 
 The launcher accepts `SMK_PROFILE`, `SMK_CONDA_PREFIX` and `SMK_ENV_NAME`.
 Store reads, assemblies, alignments and workflow outputs outside this checkout.
-
-## PRJEB79569 analysis
-
-Ecological analyses, statistical models and figure code are in
-[phage_uv_ecology_analysis](https://github.com/shaman-narayanasamy/phage_uv_ecology_analysis).
-Raw data: https://www.ebi.ac.uk/ena/browser/view/PRJEB79569.
